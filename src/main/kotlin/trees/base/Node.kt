@@ -1,8 +1,8 @@
 package trees.base
 
-interface Node<K, V> {
+interface Node<K, V, N: Node<K, V, N>> {
     val key: K
     val value: V
-    var left: Node<K, V>?
-    var right: Node<K, V>?
+    var left: N?
+    var right: N?
 }
