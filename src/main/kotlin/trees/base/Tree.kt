@@ -1,9 +1,9 @@
 package trees.base
 
-interface Tree<K: Comparable<K>, V, N: Node<K, V, N>> {
+interface Tree<K : Comparable<K>, V, N : Node<K, V, N>> {
     // methods for changing the tree
     fun insert(key: K, value: V): N
-    fun delete(value: K): Boolean
+    fun delete(key: K): Boolean
     fun search(key: K): V?
     fun clear()
 
