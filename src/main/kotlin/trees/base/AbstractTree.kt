@@ -1,12 +1,21 @@
 package trees.base
 
-abstract class AbstractTree<K: Comparable<K>, V, N: Node<K, V, N>>: Tree<K, V, N> {
+abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V, N> {
     private var root: N? = null
     private var countNodes: Int = 0
 
-    protected fun getRoot(): N? { return root }
-    protected fun setRoot(newValue: N?): Boolean { root = newValue; return true }
-    protected fun getCountNodes(): Int { return countNodes }
+    protected fun getRoot(): N? {
+        return root
+    }
+
+    protected fun setRoot(newValue: N?): Boolean {
+        root = newValue; return true
+    }
+
+    protected fun getCountNodes(): Int {
+        return countNodes
+    }
+
     protected fun setCountNodes(newValue: Int): Boolean {
         if (newValue < 0) return false
         countNodes = newValue
@@ -25,9 +34,10 @@ abstract class AbstractTree<K: Comparable<K>, V, N: Node<K, V, N>>: Tree<K, V, N
     }
 
     abstract override fun insert(key: K, value: V): N
-    abstract override fun delete(value: K): Boolean
+    abstract override fun delete(key: K): Boolean
     abstract override fun search(key: K): V?
     abstract override fun height(): Int
+    abstract fun inOrder(): List<N>
 
     override fun clear() {
         setRoot(null)
@@ -42,11 +52,11 @@ abstract class AbstractTree<K: Comparable<K>, V, N: Node<K, V, N>>: Tree<K, V, N
         return getRoot() == null
     }
 
-    fun max() {
+    fun max(): K? {
         TODO("Not yet implemented")
     }
 
-    fun min() {
+    fun min(): K? {
         TODO("Not yet implemented")
     }
 
@@ -55,10 +65,6 @@ abstract class AbstractTree<K: Comparable<K>, V, N: Node<K, V, N>>: Tree<K, V, N
     }
 
     fun contains(value: V): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    fun inOrder(): List<N> {
         TODO("Not yet implemented")
     }
 }
