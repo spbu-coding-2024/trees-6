@@ -19,6 +19,12 @@ class AVLTree<K: Comparable<K>, V> : AbstractTree<K, V, AVLNode<K, V>>() {
         TODO("Not yet implemented")
     }
 
+    private fun getBalanceFactor(node: AVLNode<K, V>): Int {
+        val heightRightNode = node.right?.height ?: 0
+        val heightLeftNode = node.left?.height ?: 0
+        return heightRightNode - heightLeftNode
+    }
+
     private fun getBalance(): Boolean {
         TODO("Not yet implemented")
     }
