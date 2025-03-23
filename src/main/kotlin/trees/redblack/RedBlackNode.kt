@@ -4,7 +4,7 @@ import trees.avl.AVLNode
 import trees.base.Node
 import trees.redblack.Colors
 
-class RedBlackNode<K: Comparable<K>, V>(
+class RedBlackNode<K: Comparable<K>, V> (
     override val key: K,
     override val value: V,
     var parent: RedBlackNode<K, V>? = null,
