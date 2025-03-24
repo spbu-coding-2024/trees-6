@@ -1,5 +1,7 @@
 package trees.base
 
+import trees.redblack.RedBlackNode
+
 abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V, N> {
     private var root: N? = null
     private var countNodes: Int = 0
@@ -37,7 +39,7 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
     abstract override fun delete(key: K): Boolean
     abstract override fun search(key: K): V?
     abstract override fun height(): Int
-    abstract fun inOrder(): List<N>
+
 
     override fun clear() {
         setRoot(null)
@@ -50,6 +52,23 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
 
     override fun isEmpty(): Boolean {
         return getRoot() == null
+    }
+
+    // Максон, чекни ноду в определениях. Так оставляем чи меняем Node<> на N?
+    override fun inOrder(): List<Node<K, V, N>> {
+        val result = mutableListOf<Node<K, V, N>>()
+        inOrderHelper(getRoot(), result)
+        return result
+    }
+
+    private fun inOrderHelper(node: Node<K, V, N>?, result: MutableList<Node<K, V, N>>) {
+        if (node == null) {
+            return
+        }
+
+        inOrderHelper(node.left, result)
+        result.add(node)
+        inOrderHelper(node.right, result)
     }
 
     fun max(): K? {
