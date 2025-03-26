@@ -66,12 +66,32 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
         }
     }
 
-    fun max(): K? {
-        TODO("Not yet implemented")
+    fun max(node: Node<K, V, N>?): K? {
+        if (node == null) return null
+        val maxNode = maxNode(node)
+        return maxNode.key
     }
 
-    fun min(): K? {
-        TODO("Not yet implemented")
+    private fun maxNode(node: Node<K, V, N>): Node<K, V, N> {
+        var current = node
+        while (current.right != null) {
+            current = current.right ?: throw BrakeException()
+        }
+        return current
+    }
+
+    fun min(node: Node<K, V, N>?): K? {
+        if (node == null) return null
+        val minNode = minNode(node)
+        return minNode.key
+    }
+
+    private fun minNode(node: Node<K, V, N>): Node<K, V, N> {
+        var current = node
+        while (current.left != null) {
+            current = current.left ?: throw BrakeException()
+        }
+        return current
     }
 
     fun range(start: K, end: K): List<V> {
@@ -81,4 +101,7 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
     fun contains(value: V): Boolean {
         TODO("Not yet implemented")
     }
+
+    // Just a plug for private methods
+    protected class BrakeException : Exception()
 }

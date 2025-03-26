@@ -134,7 +134,4 @@ class AVLTree<K : Comparable<K>, V : Any> : AbstractTree<K, V, AVLNode<K, V>>() 
         addValueToMaxHeight(rightNode, 1)
         return rightNode
     }
-
-    // Just a plug
-    private class BrakeException : Exception()
 }
