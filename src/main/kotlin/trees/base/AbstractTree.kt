@@ -57,18 +57,16 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
     // Максон, чекни ноду в определениях. Так оставляем чи меняем Node<> на N?
     override fun inOrder(): List<Node<K, V, N>> {
         val result = mutableListOf<Node<K, V, N>>()
-        inOrderHelper(getRoot(), result)
+        inOrderRecursively(getRoot(), result)
         return result
     }
 
-    private fun inOrderHelper(node: Node<K, V, N>?, result: MutableList<Node<K, V, N>>) {
-        if (node == null) {
-            return
+    private fun inOrderRecursively(node: Node<K, V, N>?, result: MutableList<Node<K, V, N>>) {
+        if (node != null) {
+            inOrderRecursively(node.left, result)
+            result.add(node)
+            inOrderRecursively(node.right, result)
         }
-
-        inOrderHelper(node.left, result)
-        result.add(node)
-        inOrderHelper(node.right, result)
     }
 
     fun max(): K? {

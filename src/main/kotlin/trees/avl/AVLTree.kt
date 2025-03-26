@@ -25,12 +25,6 @@ class AVLTree<K : Comparable<K>, V : Any> : AbstractTree<K, V, AVLNode<K, V>>() 
         return getRoot()?.height ?: 0
     }
 
-    override fun inOrder(): List<AVLNode<K, V>> {
-        val result = mutableListOf<AVLNode<K, V>>()
-        inOrderRecursively(getRoot(), result)
-        return result
-    }
-
     private fun insertRecursively(node: AVLNode<K, V>?, key: K, value: V): AVLNode<K, V> {
         if (node == null) {
             val newNode = AVLNode(key, value)
@@ -78,14 +72,6 @@ class AVLTree<K : Comparable<K>, V : Any> : AbstractTree<K, V, AVLNode<K, V>>() 
         if (node.key == key) return node.value
         if (node.key > key) return searchRecursively(node.left, key)
         return searchRecursively(node.right, key)
-    }
-
-    private fun inOrderRecursively(node: AVLNode<K, V>?, result: MutableList<AVLNode<K, V>>) {
-        if (node != null) {
-            inOrderRecursively(node.left, result)
-            result.add(node)
-            inOrderRecursively(node.right, result)
-        }
     }
 
     private fun addValueToMaxHeight(node: AVLNode<K, V>, value: Int): Boolean {
