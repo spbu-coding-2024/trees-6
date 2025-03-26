@@ -66,9 +66,9 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
         }
     }
 
-    fun max(node: Node<K, V, N>?): K? {
-        if (node == null) return null
-        val maxNode = maxNode(node)
+    fun max(): K? {
+        val root = getRoot() ?: return null
+        val maxNode = maxNode(root)
         return maxNode.key
     }
 
@@ -80,9 +80,9 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
         return current
     }
 
-    fun min(node: Node<K, V, N>?): K? {
-        if (node == null) return null
-        val minNode = minNode(node)
+    fun min(): K? {
+        val root = getRoot() ?: return null
+        val minNode = minNode(root)
         return minNode.key
     }
 
