@@ -105,8 +105,20 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
         return current
     }
 
-    fun range(start: K, end: K): List<V> {
-        TODO("Not yet implemented")
+    fun range(start: K, end: K): MutableList<V>? {
+        if (!validateKeysForRangeMethod(start, end)) return null
+        val order = inOrder()
+        val result = mutableListOf<V>()
+        for (i in order.indices) {
+            if (order[i].key in start..end) result.add(order[i].value)
+        }
+        return result
+    }
+
+    private fun validateKeysForRangeMethod(first: K, second: K): Boolean {
+        if (search(first) == null || search(second) == null) return false
+        if (first > second) return false
+        return true
     }
 
     fun contains(value: V): Boolean {
