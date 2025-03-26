@@ -99,7 +99,18 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
     }
 
     fun contains(value: V): Boolean {
-        TODO("Not yet implemented")
+        val order = inOrder()
+        findNodeInListByValue(order, value) ?: return false
+        return true
+    }
+
+    private fun findNodeInListByValue(list: List<Node<K, V, N>>, value: V): Node<K, V, N>? {
+        for (i in list.indices) {
+            if (list[i].value == value) {
+                return list[i]
+            }
+        }
+        return null
     }
 
     // Just a plug for private methods
