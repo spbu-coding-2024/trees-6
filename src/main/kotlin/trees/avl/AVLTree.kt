@@ -16,7 +16,7 @@ class AVLTree<K : Comparable<K>, V : Any> : AbstractTree<K, V, AVLNode<K, V>>() 
         return startSize != getCountNodes()
     }
 
-    override fun height(): Int {
+    fun height(): Int {
         return getRoot()?.height ?: 0
     }
 

@@ -273,10 +273,6 @@ class RedBlackTree<K: Comparable<K>, V> : AbstractTree<K, V, RedBlackNode<K, V>>
         return wanted
     }
 
-    override fun height(): Int {
-        TODO("Not yet implemented")
-    }
-
     override fun search(key: K): V? {
         TODO()
     }

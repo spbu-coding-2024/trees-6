@@ -35,8 +35,6 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
 
     abstract override fun insert(key: K, value: V): N
     abstract override fun delete(key: K): Boolean
-    abstract override fun height(): Int
-
 
     override fun clear() {
         setRoot(null)

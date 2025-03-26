@@ -9,10 +9,8 @@ interface Tree<K : Comparable<K>, V, N : Node<K, V, N>> {
 
     // methods for getting values
     fun size(): Int
-    fun height(): Int
+    fun inOrder(): List<Node<K, V, N>>
 
     // methods for checks
     fun isEmpty(): Boolean
-
-    fun inOrder(): List<Node<K, V, N>>
 }
