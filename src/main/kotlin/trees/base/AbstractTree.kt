@@ -1,7 +1,5 @@
 package trees.base
 
-import trees.redblack.RedBlackNode
-
 abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V, N> {
     private var root: N? = null
     private var countNodes: Int = 0
@@ -54,7 +52,6 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
         return getRoot() == null
     }
 
-    // Максон, чекни ноду в определениях. Так оставляем чи меняем Node<> на N?
     override fun inOrder(): List<Node<K, V, N>> {
         val result = mutableListOf<Node<K, V, N>>()
         inOrderRecursively(getRoot(), result)
