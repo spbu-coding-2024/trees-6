@@ -16,11 +16,6 @@ class AVLTree<K : Comparable<K>, V : Any> : AbstractTree<K, V, AVLNode<K, V>>() 
         return startSize != getCountNodes()
     }
 
-    override fun search(key: K): V? {
-        val result = searchRecursively(getRoot(), key)
-        return result
-    }
-
     override fun height(): Int {
         return getRoot()?.height ?: 0
     }
@@ -65,13 +60,6 @@ class AVLTree<K : Comparable<K>, V : Any> : AbstractTree<K, V, AVLNode<K, V>>() 
         }
         addValueToMaxHeight(node, 1)
         return balance(node)
-    }
-
-    private fun searchRecursively(node: AVLNode<K, V>?, key: K): V? {
-        if (node == null) return null
-        if (node.key == key) return node.value
-        if (node.key > key) return searchRecursively(node.left, key)
-        return searchRecursively(node.right, key)
     }
 
     private fun addValueToMaxHeight(node: AVLNode<K, V>, value: Int): Boolean {

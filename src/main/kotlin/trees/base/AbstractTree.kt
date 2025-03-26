@@ -35,7 +35,6 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
 
     abstract override fun insert(key: K, value: V): N
     abstract override fun delete(key: K): Boolean
-    abstract override fun search(key: K): V?
     abstract override fun height(): Int
 
 
@@ -64,6 +63,18 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
             result.add(node)
             inOrderRecursively(node.right, result)
         }
+    }
+
+    override fun search(key: K): V? {
+        val result = searchRecursively(getRoot(), key)
+        return result
+    }
+
+    private fun searchRecursively(node: Node<K, V, N>?, key: K): V? {
+        if (node == null) return null
+        if (node.key == key) return node.value
+        if (node.key > key) return searchRecursively(node.left, key)
+        return searchRecursively(node.right, key)
     }
 
     fun max(): K? {
