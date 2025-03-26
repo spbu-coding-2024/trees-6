@@ -6,9 +6,12 @@ import trees.avl.AVLTree
 import kotlin.math.pow
 import kotlin.random.Random
 
+const val STRING_LENGTH = 20
+const val MAX_COUNT_ELEMENTS_IN_TESTS = 3000
+const val MIN_COUNT_ELEMENTS_IN_TESTS = 1
+
 class AVLTreeTests {
-    private val stringLength = 20
-    private fun randomStringByApacheCommons() = RandomStringUtils.randomAlphanumeric(stringLength)
+    private fun randomStringByApacheCommons() = RandomStringUtils.randomAlphanumeric(STRING_LENGTH)
 
     @Test
     fun `Basic AVL test with simply insert and search and delete`() {
@@ -97,6 +100,13 @@ class AVLTreeTests {
     }
 
     @Test
+    fun `Basic AVL test with not empty tree and isEmpty() method`() {
+        val avl = AVLTree<Int, Int>()
+        avl.insert(10, 10)
+        assertFalse(avl.isEmpty())
+    }
+
+    @Test
     fun `Basic AVL test with empty tree and height() method`() {
         val avl = AVLTree<Int, String>()
         assertEquals(0, avl.height())
@@ -116,6 +126,18 @@ class AVLTreeTests {
     }
 
     @Test
+    fun `Basic AVL test with empty tree and min() method`() {
+        val avl = AVLTree<Int, Int>()
+        assertNull(avl.min())
+    }
+
+    @Test
+    fun `Basic AVL test with empty tree and max() method`() {
+        val avl = AVLTree<Int, Int>()
+        assertNull(avl.max())
+    }
+
+    @Test
     fun `Complicated AVL test with empty tree`() {
         val avl = AVLTree<Int, String>()
         for (i in 0..10)
@@ -125,10 +147,35 @@ class AVLTreeTests {
     }
 
     @Test
+    fun `Basic AVL test with first non-existent keys in range() method`() {
+        val avl = AVLTree<Int, Int>()
+        avl.insert(-52, -52)
+        val resultRange = avl.range(-52, 52)
+        assertNull(resultRange)
+    }
+
+    @Test
+    fun `Basic AVL test with second non-existent keys in range() method`() {
+        val avl = AVLTree<Int, Int>()
+        avl.insert(52, 52)
+        val resultRange = avl.range(-52, 52)
+        assertNull(resultRange)
+    }
+
+    @Test
+    fun `Basic AVL test with incorrect order of elements in range() method`() {
+        val avl = AVLTree<Int, Int>()
+        avl.insert(52, 52)
+        avl.insert(-52, -52)
+        val resultRange = avl.range(52, -52)
+        assertNull(resultRange)
+    }
+
+    @Test
     fun `Complicated AVL random test inOrder() method`() {
         val avl = AVLTree<Int, Int>()
         val allNumbers = mutableListOf<Int>()
-        val cntNumbers = Random.nextInt(1, 3000)
+        val cntNumbers = Random.nextInt(MIN_COUNT_ELEMENTS_IN_TESTS, MAX_COUNT_ELEMENTS_IN_TESTS)
 
         for (i in 1..cntNumbers) {
             val currentInt = Random.nextInt()
@@ -147,9 +194,9 @@ class AVLTreeTests {
     }
 
     @Test
-    fun `Complicated AVL random test with 3000 nodes and strings as keys and int as values`() {
+    fun `Complicated AVL random tests`() {
         val avl = AVLTree<String, Int>()
-        val cntElements = 3000
+        val cntElements = Random.nextInt(MIN_COUNT_ELEMENTS_IN_TESTS, MAX_COUNT_ELEMENTS_IN_TESTS)
         val allNodes = mutableListOf<AVLNode<String, Int>>()
 
         // Filling in the data
@@ -184,6 +231,75 @@ class AVLTreeTests {
         // Checking tree
         for (i in 0..<cntDelete) {
             assertNull(avl.search(allDeleted[i].key))
+        }
+    }
+
+    @Test
+    fun `Complicated AVL random test with min() method`() {
+        val avl = AVLTree<Int, Int>()
+        val cntElements = Random.nextInt(MIN_COUNT_ELEMENTS_IN_TESTS, MAX_COUNT_ELEMENTS_IN_TESTS)
+        var minElement = 0
+        for (i in 1..cntElements) {
+            val data = Random.nextInt()
+            if (minElement > data) minElement = data
+            avl.insert(data, data)
+        }
+        assertEquals(minElement, avl.min())
+    }
+
+    @Test
+    fun `Complicated AVL random test with max() method`() {
+        val avl = AVLTree<Int, Int>()
+        val cntElements = Random.nextInt(MIN_COUNT_ELEMENTS_IN_TESTS, MAX_COUNT_ELEMENTS_IN_TESTS)
+        var maxElement = 0
+        for (i in 1..cntElements) {
+            val data = Random.nextInt()
+            if (maxElement < data) maxElement = data
+            avl.insert(data, data)
+        }
+        assertEquals(maxElement, avl.max())
+    }
+
+    @Test
+    fun `Complicated AVL random test with contains() method`() {
+        val avl = AVLTree<Int, Int>()
+        val allInt = mutableListOf<Int>()
+        val cntElements = Random.nextInt(MIN_COUNT_ELEMENTS_IN_TESTS, MAX_COUNT_ELEMENTS_IN_TESTS)
+        for (i in 1..cntElements) {
+            val data = Random.nextInt(-10000, 10000)
+            allInt.add(data)
+            avl.insert(data, data)
+        }
+        for (i in allInt.indices) {
+            assertTrue(avl.contains(allInt[i]))
+        }
+        for (i in 1..100) {
+            val currentInt = Random.nextInt(10001, 100000)
+            assertFalse(avl.contains(currentInt))
+        }
+        for (i in 1..100) {
+            val currentInt = Random.nextInt(-100000, -10001)
+            assertFalse(avl.contains(currentInt))
+        }
+    }
+
+    @Test
+    fun `Basic AVL random test with range() method`() {
+        val avl = AVLTree<Int, Int>()
+        val expected = mutableListOf<Int>()
+        for (i in 1..10) {
+            val data = i * 10
+            avl.insert(data, data)
+        }
+        for (i in 3..6) {
+            val data = i * 10
+            expected.add(data)
+        }
+        val resultRange = avl.range(30, 60)
+        if (resultRange != null) {
+            for (i in resultRange.indices) {
+                assertEquals(expected[i], resultRange[i])
+            }
         }
     }
 }
