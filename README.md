@@ -1,5 +1,5 @@
 # ***Trees Library*** :deciduous_tree:
-___
+
 This Kotlin library provides implementations of various tree data structures. 
 Currently, the following three types are supported:
 + ***Binary Tree***  
@@ -8,9 +8,8 @@ Currently, the following three types are supported:
   It is a self-balancing tree where the notes are red and black
 + ***AVL Tree***  
   A self-balancing tree where the height balance is maintained
-___
+
 ## ***Features***
-___
 
 ### **Supported Methods**
 
@@ -37,7 +36,6 @@ ___
 + `contains(value: V): Boolean`  
   Checks whether the node exists by value
 
-___
 ## ***Usage***
 
 ### **AVLTree simply examples**
@@ -97,11 +95,11 @@ Key: 10 Value: qwerty
 Key: 52 Value: 52
 ```
 
-___
+
 ## ***Documentation***
 
 The documentation is available in the directory [docs/](docs/)
-___
+
 ## ***License*** :clipboard:
 
 This project is licensed under the [MIT License](LICENSE).
