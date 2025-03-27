@@ -2,9 +2,7 @@ package trees.redblack
 
 import trees.base.AbstractTree
 
-class RedBlackTree<K: Comparable<K>, V> : AbstractTree<K, V, RedBlackNode<K, V>>() {
-    private var root: RedBlackNode<K, V>? = null
-    private var countNodes: Int = 0
+class RedBlackTree<K : Comparable<K>, V : Any> : AbstractTree<K, V, RedBlackNode<K, V>>() {
 
     override fun insert(key: K, value: V): RedBlackNode<K, V> {
         val newNode: RedBlackNode<K, V> = RedBlackNode(key, value)
@@ -467,14 +465,4 @@ class RedBlackTree<K: Comparable<K>, V> : AbstractTree<K, V, RedBlackNode<K, V>>
     private fun isRoot(node: RedBlackNode<K, V>?): Boolean {
         return (node == getRoot())
     }
-
-    override fun height(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun search(key: K): V? {
-        TODO()
-    }
-
-    private class BrakeException : Exception()
 }
