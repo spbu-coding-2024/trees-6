@@ -52,7 +52,7 @@ class AVLTree<K : Comparable<K>, V : Any> : AbstractTree<K, V, AVLNode<K, V>>() 
                 return temp
             } else {
                 val rightNode = node.right ?: throw IllegalStateException("Right node cannot be null")
-                val temp = minValue(rightNode)
+                val temp = minNode(rightNode)
                 node.key = temp.key
                 node.value = temp.value
                 node.right = deleteRecursively(node.right, temp.key)
@@ -95,7 +95,7 @@ class AVLTree<K : Comparable<K>, V : Any> : AbstractTree<K, V, AVLNode<K, V>>() 
         return node
     }
 
-    private fun minValue(node: AVLNode<K, V>): AVLNode<K, V> {
+    private fun minNode(node: AVLNode<K, V>): AVLNode<K, V> {
         var current = node
         while (current.left != null) {
             current = current.left ?: throw BrakeException()
