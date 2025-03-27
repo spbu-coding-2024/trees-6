@@ -1,0 +1,80 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:////PointingToDeclaration/trees-6/[root]/index.html
+$dokka.location://STRING_LENGTH/#/PointingToDeclaration/trees-6/[root]/-s-t-r-i-n-g_-l-e-n-g-t-h.html
+$dokka.location://main/#/PointingToDeclaration/trees-6/[root]/main.html
+$dokka.location://randomStringByApacheCommons/#/PointingToDeclaration/trees-6/[root]/random-string-by-apache-commons.html
+$dokka.location:trees.avl////PointingToDeclaration/trees-6/trees.avl/index.html
+$dokka.location:trees.avl/AVLNode///PointingToDeclaration/trees-6/trees.avl/-a-v-l-node/index.html
+$dokka.location:trees.avl/AVLNode/AVLNode/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])#trees.avl.AVLNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?#trees.avl.AVLNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?#kotlin.Int/PointingToDeclaration/trees-6/trees.avl/-a-v-l-node/-a-v-l-node.html
+$dokka.location:trees.avl/AVLNode/height/#/PointingToDeclaration/trees-6/trees.avl/-a-v-l-node/height.html
+$dokka.location:trees.avl/AVLNode/key/#/PointingToDeclaration/trees-6/trees.avl/-a-v-l-node/key.html
+$dokka.location:trees.avl/AVLNode/left/#/PointingToDeclaration/trees-6/trees.avl/-a-v-l-node/left.html
+$dokka.location:trees.avl/AVLNode/right/#/PointingToDeclaration/trees-6/trees.avl/-a-v-l-node/right.html
+$dokka.location:trees.avl/AVLNode/value/#/PointingToDeclaration/trees-6/trees.avl/-a-v-l-node/value.html
+$dokka.location:trees.avl/AVLTree///PointingToDeclaration/trees-6/trees.avl/-a-v-l-tree/index.html
+$dokka.location:trees.avl/AVLTree/AVLTree/#/PointingToDeclaration/trees-6/trees.avl/-a-v-l-tree/-a-v-l-tree.html
+$dokka.location:trees.avl/AVLTree/delete/#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/trees-6/trees.avl/-a-v-l-tree/delete.html
+$dokka.location:trees.avl/AVLTree/height/#/PointingToDeclaration/trees-6/trees.avl/-a-v-l-tree/height.html
+$dokka.location:trees.avl/AVLTree/insert/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/trees-6/trees.avl/-a-v-l-tree/insert.html
+$dokka.location:trees.base////PointingToDeclaration/trees-6/trees.base/index.html
+$dokka.location:trees.base/AbstractTree///PointingToDeclaration/trees-6/trees.base/-abstract-tree/index.html
+$dokka.location:trees.base/AbstractTree/AbstractTree/#/PointingToDeclaration/trees-6/trees.base/-abstract-tree/-abstract-tree.html
+$dokka.location:trees.base/AbstractTree/clear/#/PointingToDeclaration/trees-6/trees.base/-abstract-tree/clear.html
+$dokka.location:trees.base/AbstractTree/contains/#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/trees-6/trees.base/-abstract-tree/contains.html
+$dokka.location:trees.base/AbstractTree/delete/#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/trees-6/trees.base/-abstract-tree/delete.html
+$dokka.location:trees.base/AbstractTree/inOrder/#/PointingToDeclaration/trees-6/trees.base/-abstract-tree/in-order.html
+$dokka.location:trees.base/AbstractTree/insert/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/trees-6/trees.base/-abstract-tree/insert.html
+$dokka.location:trees.base/AbstractTree/isEmpty/#/PointingToDeclaration/trees-6/trees.base/-abstract-tree/is-empty.html
+$dokka.location:trees.base/AbstractTree/max/#/PointingToDeclaration/trees-6/trees.base/-abstract-tree/max.html
+$dokka.location:trees.base/AbstractTree/min/#/PointingToDeclaration/trees-6/trees.base/-abstract-tree/min.html
+$dokka.location:trees.base/AbstractTree/range/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/trees-6/trees.base/-abstract-tree/range.html
+$dokka.location:trees.base/AbstractTree/search/#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/trees-6/trees.base/-abstract-tree/search.html
+$dokka.location:trees.base/AbstractTree/size/#/PointingToDeclaration/trees-6/trees.base/-abstract-tree/size.html
+$dokka.location:trees.base/Node///PointingToDeclaration/trees-6/trees.base/-node/index.html
+$dokka.location:trees.base/Node/key/#/PointingToDeclaration/trees-6/trees.base/-node/key.html
+$dokka.location:trees.base/Node/left/#/PointingToDeclaration/trees-6/trees.base/-node/left.html
+$dokka.location:trees.base/Node/right/#/PointingToDeclaration/trees-6/trees.base/-node/right.html
+$dokka.location:trees.base/Node/value/#/PointingToDeclaration/trees-6/trees.base/-node/value.html
+$dokka.location:trees.base/Tree///PointingToDeclaration/trees-6/trees.base/-tree/index.html
+$dokka.location:trees.base/Tree/clear/#/PointingToDeclaration/trees-6/trees.base/-tree/clear.html
+$dokka.location:trees.base/Tree/delete/#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/trees-6/trees.base/-tree/delete.html
+$dokka.location:trees.base/Tree/inOrder/#/PointingToDeclaration/trees-6/trees.base/-tree/in-order.html
+$dokka.location:trees.base/Tree/insert/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/trees-6/trees.base/-tree/insert.html
+$dokka.location:trees.base/Tree/isEmpty/#/PointingToDeclaration/trees-6/trees.base/-tree/is-empty.html
+$dokka.location:trees.base/Tree/search/#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/trees-6/trees.base/-tree/search.html
+$dokka.location:trees.base/Tree/size/#/PointingToDeclaration/trees-6/trees.base/-tree/size.html
+$dokka.location:trees.binary////PointingToDeclaration/trees-6/trees.binary/index.html
+$dokka.location:trees.binary/BinaryNode///PointingToDeclaration/trees-6/trees.binary/-binary-node/index.html
+$dokka.location:trees.binary/BinaryNode/BinaryNode/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])#trees.binary.BinaryNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?#trees.binary.BinaryNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/trees-6/trees.binary/-binary-node/-binary-node.html
+$dokka.location:trees.binary/BinaryNode/key/#/PointingToDeclaration/trees-6/trees.binary/-binary-node/key.html
+$dokka.location:trees.binary/BinaryNode/left/#/PointingToDeclaration/trees-6/trees.binary/-binary-node/left.html
+$dokka.location:trees.binary/BinaryNode/right/#/PointingToDeclaration/trees-6/trees.binary/-binary-node/right.html
+$dokka.location:trees.binary/BinaryNode/value/#/PointingToDeclaration/trees-6/trees.binary/-binary-node/value.html
+$dokka.location:trees.binary/BinaryTree///PointingToDeclaration/trees-6/trees.binary/-binary-tree/index.html
+$dokka.location:trees.binary/BinaryTree/BinaryTree/#/PointingToDeclaration/trees-6/trees.binary/-binary-tree/-binary-tree.html
+$dokka.location:trees.redblack////PointingToDeclaration/trees-6/trees.redblack/index.html
+$dokka.location:trees.redblack/Colors.BLACK///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}trees-6/trees.redblack/-colors/-b-l-a-c-k/index.html
+$dokka.location:trees.redblack/Colors.RED///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}trees-6/trees.redblack/-colors/-r-e-d/index.html
+$dokka.location:trees.redblack/Colors///PointingToDeclaration/trees-6/trees.redblack/-colors/index.html
+$dokka.location:trees.redblack/Colors/entries/#/PointingToDeclaration/trees-6/trees.redblack/-colors/entries.html
+$dokka.location:trees.redblack/Colors/valueOf/#kotlin.String/PointingToDeclaration/trees-6/trees.redblack/-colors/value-of.html
+$dokka.location:trees.redblack/Colors/values/#/PointingToDeclaration/trees-6/trees.redblack/-colors/values.html
+$dokka.location:trees.redblack/RedBlackNode///PointingToDeclaration/trees-6/trees.redblack/-red-black-node/index.html
+$dokka.location:trees.redblack/RedBlackNode/RedBlackNode/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])#trees.redblack.RedBlackNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?#trees.redblack.RedBlackNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?#trees.redblack.RedBlackNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?#trees.redblack.Colors/PointingToDeclaration/trees-6/trees.redblack/-red-black-node/-red-black-node.html
+$dokka.location:trees.redblack/RedBlackNode/color/#/PointingToDeclaration/trees-6/trees.redblack/-red-black-node/color.html
+$dokka.location:trees.redblack/RedBlackNode/key/#/PointingToDeclaration/trees-6/trees.redblack/-red-black-node/key.html
+$dokka.location:trees.redblack/RedBlackNode/left/#/PointingToDeclaration/trees-6/trees.redblack/-red-black-node/left.html
+$dokka.location:trees.redblack/RedBlackNode/parent/#/PointingToDeclaration/trees-6/trees.redblack/-red-black-node/parent.html
+$dokka.location:trees.redblack/RedBlackNode/right/#/PointingToDeclaration/trees-6/trees.redblack/-red-black-node/right.html
+$dokka.location:trees.redblack/RedBlackNode/value/#/PointingToDeclaration/trees-6/trees.redblack/-red-black-node/value.html
+$dokka.location:trees.redblack/RedBlackTree///PointingToDeclaration/trees-6/trees.redblack/-red-black-tree/index.html
+$dokka.location:trees.redblack/RedBlackTree/RedBlackTree/#/PointingToDeclaration/trees-6/trees.redblack/-red-black-tree/-red-black-tree.html
+$dokka.location:trees.redblack/RedBlackTree/delete/#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/trees-6/trees.redblack/-red-black-tree/delete.html
+$dokka.location:trees.redblack/RedBlackTree/insert/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/trees-6/trees.redblack/-red-black-tree/insert.html
+$dokka.location:trees.redblack/RedBlackTree/search/#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/trees-6/trees.redblack/-red-black-tree/search.html
+trees.avl
+trees.base
+trees.binary
+trees.redblack
+
