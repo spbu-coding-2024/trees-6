@@ -23,6 +23,8 @@ jobs:
 
       - name: Commit Documentation
         run: |
+          git config --local user.email "github@actions.com"
+          git config --local user.name "Github Actions Bot"
           git add docs/
           git commit -m "chore(docs): updated documentation"
           git push
