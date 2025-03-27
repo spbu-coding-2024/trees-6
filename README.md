@@ -98,6 +98,10 @@ Key: 52 Value: 52
 ```
 
 ___
+## ***Documentation***
+
+The documentation is available in the directory [docs/](docs/)
+___
 ## ***License*** :clipboard:
 
 This project is licensed under the [MIT License](LICENSE).
