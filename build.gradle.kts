@@ -1,10 +1,15 @@
 plugins {
     kotlin("jvm") version "2.1.10"
+    id("org.jetbrains.dokka") version "1.9.10"
     jacoco
 }
 
 group = "org.example"
 version = "1.0-SNAPSHOT"
+
+subprojects {
+    apply(plugin = "org.jetbrains.dokka")
+}
 
 repositories {
     mavenCentral()
@@ -27,6 +32,10 @@ tasks.jacocoTestReport {
         html.required.set(true)
         csv.required.set(false)
     }
+}
+
+tasks.dokkaHtml {
+    outputDirectory.set(file("$projectDir/docs"))
 }
 
 kotlin {
