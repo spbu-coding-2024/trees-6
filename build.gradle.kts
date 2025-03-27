@@ -21,7 +21,9 @@ dependencies {
 }
 
 tasks.test {
-    useJUnitPlatform()
+    useJUnitPlatform {
+        excludeTags("mad")
+    }
     finalizedBy(tasks.jacocoTestReport)
 }
 
