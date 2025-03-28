@@ -1,5 +1,12 @@
 package trees.base
 
+/**
+ * Abstract base class for a binary search tree implementation
+ *
+ * @param K Universal comparable type for key storage
+ * @param V Universal type for storing values
+ * @param N Universal type for storing `Node<K, V, N>`
+ */
 abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V, N> {
     private var root: N? = null
     private var countNodes: Int = 0
@@ -36,19 +43,43 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
     abstract override fun insert(key: K, value: V): N
     abstract override fun delete(key: K): Boolean
 
+    /**
+     * Removes all nodes from the tree
+     * `root = null` and `countNodes = 0`
+     *
+     * @sample samples.avl.sampleClear
+     */
     override fun clear() {
         setRoot(null)
         setCountNodes(0)
     }
 
+    /**
+     * Returns the number of nodes in the tree
+     *
+     * @return The total count of nodes in the tree
+     * @sample samples.avl.sampleSize
+     */
     override fun size(): Int {
         return getCountNodes()
     }
 
+    /**
+     * Checks if the tree is empty
+     *
+     * @return `true` if root is `null`, `false` if root is not `null`
+     * @sample samples.avl.sampleIsEmpty
+     */
     override fun isEmpty(): Boolean {
         return getRoot() == null
     }
 
+    /**
+     * Traverses the tree by keys in ascending order of keys
+     *
+     * @return `List<Node<K, V, N>>` of all nodes in the tree in ascending order by key
+     * @sample samples.avl.sampleInOrder
+     */
     override fun inOrder(): List<Node<K, V, N>> {
         val result = mutableListOf<Node<K, V, N>>()
         inOrderRecursively(getRoot(), result)
@@ -63,6 +94,13 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
         }
     }
 
+    /**
+     * Searches for a value in the key tree
+     *
+     * @param key The key that will be used to search for the value
+     * @return value obtained by the key, `null` if value is not found
+     * @sample samples.avl.sampleSearch
+     */
     override fun search(key: K): V? {
         val result = searchRecursively(getRoot(), key)
         return result
@@ -75,6 +113,12 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
         return searchRecursively(node.right, key)
     }
 
+    /**
+     * Finds the maximum key in the tree
+     *
+     * @return max key in the tree, `null` if tree is empty
+     * @sample samples.avl.sampleMax
+     */
     fun max(): K? {
         val root = getRoot() ?: return null
         val maxNode = maxNode(root)
@@ -89,6 +133,12 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
         return current
     }
 
+    /**
+     * Finds the minimum key in the tree
+     *
+     * @return min key in the tree, `null` if tree is empty
+     * @sample samples.avl.sampleMin
+     */
     fun min(): K? {
         val root = getRoot() ?: return null
         val minNode = minNode(root)
@@ -103,6 +153,14 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
         return current
     }
 
+    /**
+     * Returns a list with nodes whose keys are in the specified constraint
+     *
+     * @param start The starting key of the range
+     * @param end The ending key of the range
+     * @return list of values in the range, `null` if no keys are found or range is invalid
+     * @sample samples.avl.sampleRange
+     */
     fun range(start: K, end: K): MutableList<V>? {
         if (!validateKeysForRangeMethod(start, end)) return null
         val order = inOrder()
@@ -119,6 +177,13 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
         return true
     }
 
+    /**
+     * Checks if a specific value exists in the tree
+     *
+     * @param value The value for searching in the tree
+     * @return `true` if the value is in the tree, otherwise `false`
+     * @sample samples.avl.sampleContains
+     */
     fun contains(value: V): Boolean {
         val order = inOrder()
         findNodeInListByValue(order, value) ?: return false
