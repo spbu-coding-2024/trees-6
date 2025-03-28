@@ -83,7 +83,7 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
     override fun inOrder(): List<Node<K, V, N>> {
         val result = mutableListOf<Node<K, V, N>>()
         inOrderRecursively(getRoot(), result)
-        return result
+        return result.toList()
     }
 
     private fun inOrderRecursively(node: Node<K, V, N>?, result: MutableList<Node<K, V, N>>) {
