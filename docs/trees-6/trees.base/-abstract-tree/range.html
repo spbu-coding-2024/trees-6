@@ -66,7 +66,26 @@
   <div class="cover ">
     <h1 class="cover"><span><span>range</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="range.html"><span class="token function">range</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">start<span class="token operator">: </span><a href="index.html">K</a><span class="token punctuation">, </span></span><span class="parameter ">end<span class="token operator">: </span><a href="index.html">K</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.collections/-mutable-list/index.html">MutableList</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">V</a><span class="token operator">&gt;</span><span class="token operator">?</span></div></div></div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="range.html"><span class="token function">range</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">start<span class="token operator">: </span><a href="index.html">K</a><span class="token punctuation">, </span></span><span class="parameter ">end<span class="token operator">: </span><a href="index.html">K</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">V</a><span class="token operator">&gt;</span><span class="token operator">?</span></div><p class="paragraph">Returns a list with nodes whose keys are in the specified constraint</p><span class="kdoc-tag"><h4 class="">Return</h4><p class="paragraph">list of values in the range, <code class="lang-kotlin">null</code> if no keys are found or range is invalid</p></span><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>start</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The starting key of the range</p></div></div></div></div><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>end</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The ending key of the range</p></div></div></div></div></div><h4 class="">Samples</h4><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import trees.avl.AVLTree
+fun main() { 
+   //sampleStart 
+   val avl = AVLTree&lt;Int, String&gt;()
+avl.insert(52, &quot;Some string 1&quot;)
+avl.insert(25, &quot;Some string 2&quot;)
+avl.insert(66, &quot;Some string 3&quot;)
+avl.insert(17, &quot;Some string 4&quot;)
+avl.insert(51, &quot;Some string 5&quot;)
+val range = avl.range(25, 52)
+if (range.isNullOrEmpty()) { println(null); return }
+for (i in range.indices) {
+    println(&quot;Value: ${range[i]}&quot;)
+}
+// Print:
+// Value: Some string 2
+// Value: Some string 5
+// Value: Some string 1 
+   //sampleEnd
+}</code></pre></div></div></div>
 </div>
       <div class="footer">
         <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Copyright</span><span

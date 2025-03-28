@@ -66,7 +66,25 @@
   <div class="cover ">
     <h1 class="cover"><span>in</span><wbr></wbr><span><span>Order</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="in-order.html"><span class="token function">inOrder</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-node/index.html">Node</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">K</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="index.html">V</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="index.html">N</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="in-order.html"><span class="token function">inOrder</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-node/index.html">Node</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">K</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="index.html">V</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="index.html">N</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div><p class="paragraph">Traverses the tree by keys in ascending order of keys</p><span class="kdoc-tag"><h4 class="">Return</h4><p class="paragraph"><code class="lang-kotlin">List&lt;Node&lt;K, V, N&gt;&gt;</code> of all nodes in the tree in ascending order by key</p></span><h4 class="">Samples</h4><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import trees.avl.AVLTree
+fun main() { 
+   //sampleStart 
+   val avl = AVLTree&lt;Int, String&gt;()
+avl.insert(52, &quot;Some string 1&quot;)
+avl.insert(15, &quot;Some string 2&quot;)
+avl.insert(24, &quot;Some string 3&quot;)
+avl.insert(152, &quot;Some string 4&quot;)
+val order = avl.inOrder()
+for (i in order.indices) {
+    println(&quot;Key: ${order[i].key} Value: ${order[i].value}&quot;)
+}
+// Print:
+// Key: 15 Value: Some string 2
+// Key: 24 Value: Some string 3
+// Key: 52 Value: Some string 1
+// Key: 152 Value: Some string 4 
+   //sampleEnd
+}</code></pre></div></div></div>
 </div>
       <div class="footer">
         <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Copyright</span><span

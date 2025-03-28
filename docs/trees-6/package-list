@@ -1,9 +1,18 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
-$dokka.location:////PointingToDeclaration/trees-6/[root]/index.html
-$dokka.location://STRING_LENGTH/#/PointingToDeclaration/trees-6/[root]/-s-t-r-i-n-g_-l-e-n-g-t-h.html
-$dokka.location://main/#/PointingToDeclaration/trees-6/[root]/main.html
-$dokka.location://randomStringByApacheCommons/#/PointingToDeclaration/trees-6/[root]/random-string-by-apache-commons.html
+$dokka.location:samples.avl////PointingToDeclaration/trees-6/samples.avl/index.html
+$dokka.location:samples.avl//sampleClear/#/PointingToDeclaration/trees-6/samples.avl/sample-clear.html
+$dokka.location:samples.avl//sampleContains/#/PointingToDeclaration/trees-6/samples.avl/sample-contains.html
+$dokka.location:samples.avl//sampleDelete/#/PointingToDeclaration/trees-6/samples.avl/sample-delete.html
+$dokka.location:samples.avl//sampleHeight/#/PointingToDeclaration/trees-6/samples.avl/sample-height.html
+$dokka.location:samples.avl//sampleInOrder/#/PointingToDeclaration/trees-6/samples.avl/sample-in-order.html
+$dokka.location:samples.avl//sampleInsert/#/PointingToDeclaration/trees-6/samples.avl/sample-insert.html
+$dokka.location:samples.avl//sampleIsEmpty/#/PointingToDeclaration/trees-6/samples.avl/sample-is-empty.html
+$dokka.location:samples.avl//sampleMax/#/PointingToDeclaration/trees-6/samples.avl/sample-max.html
+$dokka.location:samples.avl//sampleMin/#/PointingToDeclaration/trees-6/samples.avl/sample-min.html
+$dokka.location:samples.avl//sampleRange/#/PointingToDeclaration/trees-6/samples.avl/sample-range.html
+$dokka.location:samples.avl//sampleSearch/#/PointingToDeclaration/trees-6/samples.avl/sample-search.html
+$dokka.location:samples.avl//sampleSize/#/PointingToDeclaration/trees-6/samples.avl/sample-size.html
 $dokka.location:trees.avl////PointingToDeclaration/trees-6/trees.avl/index.html
 $dokka.location:trees.avl/AVLNode///PointingToDeclaration/trees-6/trees.avl/-a-v-l-node/index.html
 $dokka.location:trees.avl/AVLNode/AVLNode/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])#trees.avl.AVLNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?#trees.avl.AVLNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?#kotlin.Int/PointingToDeclaration/trees-6/trees.avl/-a-v-l-node/-a-v-l-node.html
@@ -71,8 +80,8 @@ $dokka.location:trees.redblack/RedBlackNode/value/#/PointingToDeclaration/trees
 $dokka.location:trees.redblack/RedBlackTree///PointingToDeclaration/trees-6/trees.redblack/-red-black-tree/index.html
 $dokka.location:trees.redblack/RedBlackTree/RedBlackTree/#/PointingToDeclaration/trees-6/trees.redblack/-red-black-tree/-red-black-tree.html
 $dokka.location:trees.redblack/RedBlackTree/delete/#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/trees-6/trees.redblack/-red-black-tree/delete.html
-$dokka.location:trees.redblack/RedBlackTree/insert/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/trees-6/trees.redblack/-red-black-tree/insert.html
-$dokka.location:trees.redblack/RedBlackTree/search/#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/trees-6/trees.redblack/-red-black-tree/search.html
+$dokka.location:trees.redblack/RedBlackTree/insert/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/trees-6/trees.redblack/-red-black-tree/insert.html
+samples.avl
 trees.avl
 trees.base
 trees.binary
