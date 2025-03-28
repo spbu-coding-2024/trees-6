@@ -2,13 +2,36 @@ package trees.avl
 
 import trees.base.AbstractTree
 
+/**
+ * The AVL Tree is a self-balancing tree that maintains height balance
+ *
+ * @author Maksim Varlyga (https://github.com/vvmaksim)
+ * @param K Universal comparable type for key storage
+ * @param V Universal type for storing values
+ */
 class AVLTree<K : Comparable<K>, V : Any> : AbstractTree<K, V, AVLNode<K, V>>() {
+    /**
+     * Adds a new `AVLNode<K, V>` to the tree
+     * If the key already exists, its value is updated
+     *
+     * @param key The key with which the value will be added to the tree, must be comparable
+     * @param value The value that will be added with the key or will be updated if such a key already exists
+     * @return `AVLNode<K, V>`
+     * @sample samples.avl.sampleInsert
+     */
     override fun insert(key: K, value: V): AVLNode<K, V> {
         val newRoot = insertRecursively(getRoot(), key, value)
         setRoot(newRoot)
         return newRoot
     }
 
+    /**
+     * Deletes a node by key
+     *
+     * @param key The key used to delete the node
+     * @return `true` if a node was deleted, `false` if the key was not found
+     * @sample samples.avl.sampleDelete
+     */
     override fun delete(key: K): Boolean {
         val startSize = getCountNodes()
         val newRoot = deleteRecursively(getRoot(), key)
@@ -16,6 +39,12 @@ class AVLTree<K : Comparable<K>, V : Any> : AbstractTree<K, V, AVLNode<K, V>>() 
         return startSize != getCountNodes()
     }
 
+    /**
+     * Returns the height of the tree, or 0 if the tree is empty
+     *
+     * @return The height of the tree, or 0 if the tree is empty
+     * @sample samples.avl.sampleHeight
+     */
     fun height(): Int {
         return getRoot()?.height ?: 0
     }
