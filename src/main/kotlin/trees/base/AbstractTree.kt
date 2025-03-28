@@ -161,14 +161,14 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
      * @return list of values in the range, `null` if no keys are found or range is invalid
      * @sample samples.avl.sampleRange
      */
-    fun range(start: K, end: K): MutableList<V>? {
+    fun range(start: K, end: K): List<V>? {
         if (!validateKeysForRangeMethod(start, end)) return null
         val order = inOrder()
         val result = mutableListOf<V>()
         for (i in order.indices) {
             if (order[i].key in start..end) result.add(order[i].value)
         }
-        return result
+        return result.toList()
     }
 
     private fun validateKeysForRangeMethod(first: K, second: K): Boolean {
