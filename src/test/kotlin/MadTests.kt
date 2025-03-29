@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.apache.commons.lang3.RandomStringUtils
+import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Tag
 import trees.avl.AVLNode
 import trees.avl.AVLTree
@@ -15,7 +16,7 @@ const val MAD_MIN_COUNT_ELEMENTS_IN_TESTS = 1
 class MadTests {
     private fun randomStringByApacheCommons() = RandomStringUtils.randomAlphanumeric(MAD_STRING_LENGTH)
 
-    @Test
+    @RepeatedTest(100)
     fun `Mad test 1 for AVL`() {
         val avl = AVLTree<Int, String>()
         val minHeight = 1
@@ -43,7 +44,7 @@ class MadTests {
         }
     }
 
-    @Test
+    @RepeatedTest(100)
     fun `Mad AVL random test inOrder() method`() {
         val avl = AVLTree<Int, Int>()
         val allNumbers = mutableListOf<Int>()
@@ -65,7 +66,7 @@ class MadTests {
         }
     }
 
-    @Test
+    @RepeatedTest(100)
     fun `Mad AVL random tests`() {
         val avl = AVLTree<String, Int>()
         val cntElements = Random.nextInt(MIN_COUNT_ELEMENTS_IN_TESTS, MAX_COUNT_ELEMENTS_IN_TESTS)
@@ -106,7 +107,7 @@ class MadTests {
         }
     }
 
-    @Test
+    @RepeatedTest(100)
     fun `Mad AVL random test with min() method`() {
         val avl = AVLTree<Int, Int>()
         val cntElements = Random.nextInt(MIN_COUNT_ELEMENTS_IN_TESTS, MAX_COUNT_ELEMENTS_IN_TESTS)
@@ -119,7 +120,7 @@ class MadTests {
         assertEquals(minElement, avl.min())
     }
 
-    @Test
+    @RepeatedTest(100)
     fun `Mad AVL random test with max() method`() {
         val avl = AVLTree<Int, Int>()
         val cntElements = Random.nextInt(MIN_COUNT_ELEMENTS_IN_TESTS, MAX_COUNT_ELEMENTS_IN_TESTS)
@@ -132,7 +133,7 @@ class MadTests {
         assertEquals(maxElement, avl.max())
     }
 
-    @Test
+    @RepeatedTest(100)
     fun `Mad AVL random test with contains() method`() {
         val avl = AVLTree<Int, Int>()
         val allInt = mutableListOf<Int>()
