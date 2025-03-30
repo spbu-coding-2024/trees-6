@@ -16,7 +16,7 @@ const val MAD_MIN_COUNT_ELEMENTS_IN_TESTS = 100
 // To run them, you need to comment the string "@Tag("mad")"
 // and run the test with the command "./gradlew test" in the root directory of the project.
 
-//@Tag("mad")
+@Tag("mad")
 class MadTests {
     private fun randomStringByApacheCommons() = RandomStringUtils.randomAlphanumeric(MAD_STRING_LENGTH)
 
