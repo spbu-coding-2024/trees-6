@@ -11,17 +11,14 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
     private var root: N? = null
     private var countNodes: Int = 0
 
-    protected fun getRoot(): N? {
-        return root
-    }
+    protected fun getRoot(): N? = root
 
     protected fun setRoot(newValue: N?): Boolean {
-        root = newValue; return true
+        root = newValue
+        return true
     }
 
-    protected fun getCountNodes(): Int {
-        return countNodes
-    }
+    protected fun getCountNodes(): Int = countNodes
 
     protected fun setCountNodes(newValue: Int): Boolean {
         if (newValue < 0) return false
@@ -40,7 +37,11 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
         return true
     }
 
-    abstract override fun insert(key: K, value: V): N
+    abstract override fun insert(
+        key: K,
+        value: V,
+    ): N
+
     abstract override fun delete(key: K): Boolean
 
     /**
@@ -60,9 +61,7 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
      * @return The total count of nodes in the tree
      * @sample samples.avl.sampleSize
      */
-    override fun size(): Int {
-        return getCountNodes()
-    }
+    override fun size(): Int = getCountNodes()
 
     /**
      * Checks if the tree is empty
@@ -70,9 +69,7 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
      * @return `true` if root is `null`, `false` if root is not `null`
      * @sample samples.avl.sampleIsEmpty
      */
-    override fun isEmpty(): Boolean {
-        return getRoot() == null
-    }
+    override fun isEmpty(): Boolean = getRoot() == null
 
     /**
      * Traverses the tree by keys in ascending order of keys
@@ -86,7 +83,10 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
         return result.toList()
     }
 
-    private fun inOrderRecursively(node: Node<K, V, N>?, result: MutableList<Node<K, V, N>>) {
+    private fun inOrderRecursively(
+        node: Node<K, V, N>?,
+        result: MutableList<Node<K, V, N>>,
+    ) {
         if (node != null) {
             inOrderRecursively(node.left, result)
             result.add(node)
@@ -106,7 +106,10 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
         return result
     }
 
-    private fun searchRecursively(node: Node<K, V, N>?, key: K): V? {
+    private fun searchRecursively(
+        node: Node<K, V, N>?,
+        key: K,
+    ): V? {
         if (node == null) return null
         if (node.key == key) return node.value
         if (node.key > key) return searchRecursively(node.left, key)
@@ -161,7 +164,10 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
      * @return list of values in the range, `null` if no keys are found or range is invalid
      * @sample samples.avl.sampleRange
      */
-    fun range(start: K, end: K): List<V>? {
+    fun range(
+        start: K,
+        end: K,
+    ): List<V>? {
         if (!validateKeysForRangeMethod(start, end)) return null
         val order = inOrder()
         val result = mutableListOf<V>()
@@ -171,7 +177,10 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
         return result.toList()
     }
 
-    private fun validateKeysForRangeMethod(first: K, second: K): Boolean {
+    private fun validateKeysForRangeMethod(
+        first: K,
+        second: K,
+    ): Boolean {
         if (search(first) == null || search(second) == null) return false
         if (first > second) return false
         return true
@@ -190,7 +199,10 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
         return true
     }
 
-    private fun findNodeInListByValue(list: List<Node<K, V, N>>, value: V): Node<K, V, N>? {
+    private fun findNodeInListByValue(
+        list: List<Node<K, V, N>>,
+        value: V,
+    ): Node<K, V, N>? {
         for (i in list.indices) {
             if (list[i].value == value) {
                 return list[i]
