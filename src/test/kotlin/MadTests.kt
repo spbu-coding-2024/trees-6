@@ -10,7 +10,7 @@ import kotlin.random.Random
 
 const val MAD_STRING_LENGTH = 20000
 const val MAD_MAX_COUNT_ELEMENTS_IN_TESTS = 20_000
-const val MAD_MIN_COUNT_ELEMENTS_IN_TESTS = 1
+const val MAD_MIN_COUNT_ELEMENTS_IN_TESTS = 100
 
 @Tag("mad")
 class MadTests {
