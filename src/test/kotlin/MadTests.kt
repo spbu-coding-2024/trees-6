@@ -1,6 +1,5 @@
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
 import org.apache.commons.lang3.RandomStringUtils
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Tag
 import trees.avl.AVLNode
@@ -12,7 +11,7 @@ const val MAD_STRING_LENGTH = 20000
 const val MAD_MAX_COUNT_ELEMENTS_IN_TESTS = 20_000
 const val MAD_MIN_COUNT_ELEMENTS_IN_TESTS = 100
 
-@Tag("mad")
+//@Tag("mad")
 class MadTests {
     private fun randomStringByApacheCommons() = RandomStringUtils.randomAlphanumeric(MAD_STRING_LENGTH)
 
