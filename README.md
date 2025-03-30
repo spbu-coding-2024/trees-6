@@ -9,6 +9,15 @@ Currently, the following three types are supported:
 + ***AVL Tree***  
   A self-balancing tree where the height balance is maintained
 
+## ***Technologies***
++ JUnit5
++ Apache Common Lang 3 3.12.0
++ Dokka 1.9.10
++ JaCoCo
++ Groovy 3.0.22
++ Kotlin 1.9.24
++ Gradle 8.10
+
 ## ***Features***
 
 ### **Supported Methods**
@@ -31,7 +40,7 @@ Currently, the following three types are supported:
   Returns the minimum key in the tree
 + `max(): K?`  
   Returns the maximum key in the tree
-+ `range(start: K, end: K): MutableList<V>?`  
++ `range(start: K, end: K): List<V>?`  
   Returns a list with values taken by keys from the range
 + `contains(value: V): Boolean`  
   Checks whether the node exists by value
@@ -94,7 +103,7 @@ _____Before some changes:_____
 Key: 10 Value: qwerty
 Key: 52 Value: 52
 ```
-
+Additional examples can be found in the directory [samples/](src/main/kotlin/samples)
 
 ## ***Documentation***
 
@@ -102,4 +111,4 @@ The documentation is available in the directory [docs/](docs/)
 
 ## ***License*** :clipboard:
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE)
