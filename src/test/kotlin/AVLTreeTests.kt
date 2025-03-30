@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.apache.commons.lang3.RandomStringUtils
+import org.junit.jupiter.api.RepeatedTest
 import trees.avl.AVLNode
 import trees.avl.AVLTree
 import kotlin.math.pow
@@ -8,7 +9,7 @@ import kotlin.random.Random
 
 const val STRING_LENGTH = 20
 const val MAX_COUNT_ELEMENTS_IN_TESTS = 3000
-const val MIN_COUNT_ELEMENTS_IN_TESTS = 1
+const val MIN_COUNT_ELEMENTS_IN_TESTS = 10
 
 class AVLTreeTests {
     private fun randomStringByApacheCommons() = RandomStringUtils.randomAlphanumeric(STRING_LENGTH)
@@ -45,7 +46,7 @@ class AVLTreeTests {
         assertEquals(secondValue, avl.search(key))
     }
 
-    @Test
+    @RepeatedTest(10)
     fun `Complicated AVL random test with varying height`() {
         val avl = AVLTree<Int, String>()
         val minHeight = 1
@@ -171,7 +172,7 @@ class AVLTreeTests {
         assertNull(resultRange)
     }
 
-    @Test
+    @RepeatedTest(10)
     fun `Complicated AVL random test inOrder() method`() {
         val avl = AVLTree<Int, Int>()
         val allNumbers = mutableListOf<Int>()
@@ -193,7 +194,7 @@ class AVLTreeTests {
         }
     }
 
-    @Test
+    @RepeatedTest(10)
     fun `Complicated AVL random tests`() {
         val avl = AVLTree<String, Int>()
         val cntElements = Random.nextInt(MIN_COUNT_ELEMENTS_IN_TESTS, MAX_COUNT_ELEMENTS_IN_TESTS)
@@ -234,7 +235,7 @@ class AVLTreeTests {
         }
     }
 
-    @Test
+    @RepeatedTest(10)
     fun `Complicated AVL random test with min() method`() {
         val avl = AVLTree<Int, Int>()
         val cntElements = Random.nextInt(MIN_COUNT_ELEMENTS_IN_TESTS, MAX_COUNT_ELEMENTS_IN_TESTS)
@@ -247,7 +248,7 @@ class AVLTreeTests {
         assertEquals(minElement, avl.min())
     }
 
-    @Test
+    @RepeatedTest(10)
     fun `Complicated AVL random test with max() method`() {
         val avl = AVLTree<Int, Int>()
         val cntElements = Random.nextInt(MIN_COUNT_ELEMENTS_IN_TESTS, MAX_COUNT_ELEMENTS_IN_TESTS)
@@ -260,7 +261,7 @@ class AVLTreeTests {
         assertEquals(maxElement, avl.max())
     }
 
-    @Test
+    @RepeatedTest(10)
     fun `Complicated AVL random test with contains() method`() {
         val avl = AVLTree<Int, Int>()
         val allInt = mutableListOf<Int>()
@@ -284,7 +285,7 @@ class AVLTreeTests {
     }
 
     @Test
-    fun `Basic AVL random test with range() method`() {
+    fun `Basic AVL test with range() method`() {
         val avl = AVLTree<Int, Int>()
         val expected = mutableListOf<Int>()
         for (i in 1..10) {
