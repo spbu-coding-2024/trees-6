@@ -19,7 +19,10 @@ class AVLTree<K : Comparable<K>, V : Any> : AbstractTree<K, V, AVLNode<K, V>>() 
      * @return `AVLNode<K, V>`
      * @sample samples.avl.sampleInsert
      */
-    override fun insert(key: K, value: V): AVLNode<K, V> {
+    override fun insert(
+        key: K,
+        value: V,
+    ): AVLNode<K, V> {
         val newRoot = insertRecursively(getRoot(), key, value)
         setRoot(newRoot)
         return newRoot
@@ -45,11 +48,13 @@ class AVLTree<K : Comparable<K>, V : Any> : AbstractTree<K, V, AVLNode<K, V>>() 
      * @return The height of the tree, or 0 if the tree is empty
      * @sample samples.avl.sampleHeight
      */
-    fun height(): Int {
-        return getRoot()?.height ?: 0
-    }
+    fun height(): Int = getRoot()?.height ?: 0
 
-    private fun insertRecursively(node: AVLNode<K, V>?, key: K, value: V): AVLNode<K, V> {
+    private fun insertRecursively(
+        node: AVLNode<K, V>?,
+        key: K,
+        value: V,
+    ): AVLNode<K, V> {
         if (node == null) {
             val newNode = AVLNode(key, value)
             addOneToCountNodes()
@@ -68,7 +73,10 @@ class AVLTree<K : Comparable<K>, V : Any> : AbstractTree<K, V, AVLNode<K, V>>() 
         return balance(node)
     }
 
-    private fun deleteRecursively(node: AVLNode<K, V>?, key: K): AVLNode<K, V>? {
+    private fun deleteRecursively(
+        node: AVLNode<K, V>?,
+        key: K,
+    ): AVLNode<K, V>? {
         if (node == null) return null
         if (key < node.key) {
             node.left = deleteRecursively(node.left, key)
@@ -91,14 +99,15 @@ class AVLTree<K : Comparable<K>, V : Any> : AbstractTree<K, V, AVLNode<K, V>>() 
         return balance(node)
     }
 
-    private fun addValueToMaxHeight(node: AVLNode<K, V>, value: Int): Boolean {
+    private fun addValueToMaxHeight(
+        node: AVLNode<K, V>,
+        value: Int,
+    ): Boolean {
         node.height = value + maxOf(node.left?.height ?: 0, node.right?.height ?: 0)
         return true
     }
 
-    private fun getBalanceFactor(node: AVLNode<K, V>): Int {
-        return (node.right?.height ?: 0) - (node.left?.height ?: 0)
-    }
+    private fun getBalanceFactor(node: AVLNode<K, V>): Int = (node.right?.height ?: 0) - (node.left?.height ?: 0)
 
     private fun balance(node: AVLNode<K, V>): AVLNode<K, V> {
         val balance = getBalanceFactor(node)
