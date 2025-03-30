@@ -1,7 +1,7 @@
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
 import org.apache.commons.lang3.RandomStringUtils
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.RepeatedTest
+import org.junit.jupiter.api.Test
 import trees.avl.AVLNode
 import trees.avl.AVLTree
 import kotlin.math.pow
@@ -122,8 +122,9 @@ class AVLTreeTests {
     @Test
     fun `Basic AVL test with empty tree and 10 non-existent keys`() {
         val avl = AVLTree<Int, String>()
-        for (i in 0..10)
+        for (i in 0..10) {
             assertNull(avl.search(i))
+        }
     }
 
     @Test
@@ -141,8 +142,9 @@ class AVLTreeTests {
     @Test
     fun `Complicated AVL test with empty tree`() {
         val avl = AVLTree<Int, String>()
-        for (i in 0..10)
+        for (i in 0..10) {
             assertNull(avl.search(i))
+        }
         assertEquals(0, avl.height())
         assertTrue(avl.isEmpty())
     }
