@@ -98,7 +98,10 @@ fun sampleRange() {
     avl.insert(17, "Some string 4")
     avl.insert(51, "Some string 5")
     val range = avl.range(25, 52)
-    if (range.isNullOrEmpty()) { println(null); return }
+    if (range.isNullOrEmpty()) {
+        println(null)
+        return
+    }
     for (i in range.indices) {
         println("Value: ${range[i]}")
     }
