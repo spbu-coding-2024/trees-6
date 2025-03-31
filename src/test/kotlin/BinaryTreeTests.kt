@@ -1,10 +1,10 @@
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
 import trees.binary.BinaryTree
 import trees.binary.BinaryNode
 
-
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import java.util.TreeMap
 import org.junit.jupiter.api.RepeatedTest
 import org.apache.commons.lang3.RandomStringUtils
 import kotlin.random.Random
@@ -29,7 +29,6 @@ class BinaryTreeTest {
     @Test
     fun `insert into empty tree`() {
         val node = tree.insert(10, "A")
-
         assertEquals(1, tree.size())
         assertEquals("A", tree.search(10))
         assertEquals(node, tree.getRoot())
@@ -42,7 +41,6 @@ class BinaryTreeTest {
         tree.insert(10, "Root")
         tree.insert(5, "Left")
         tree.insert(15, "Right")
-
         assertEquals(3, tree.size())
         val root = tree.getRoot()
         assertNotNull(root)
@@ -55,7 +53,6 @@ class BinaryTreeTest {
     fun `insert duplicate key should update value`() {
         tree.insert(10, "Initial")
         tree.insert(10, "Updated")
-
         assertEquals(1, tree.size())
         assertEquals("Updated", tree.search(10))
     }
@@ -89,7 +86,6 @@ class BinaryTreeTest {
     fun `delete leaf node`() {
         tree.insert(10, "A")
         tree.insert(5, "B")
-
         assertTrue(tree.delete(5))
         assertEquals(1, tree.size())
         assertNull(tree.getRoot()?.left)
@@ -100,7 +96,6 @@ class BinaryTreeTest {
         tree.insert(10, "A")
         tree.insert(5, "B")
         tree.insert(3, "C")
-
         assertTrue(tree.delete(5))
         assertEquals(2, tree.size())
         assertEquals(3, tree.getRoot()?.left?.key)
@@ -111,7 +106,6 @@ class BinaryTreeTest {
         tree.insert(10, "A")
         tree.insert(5, "B")
         tree.insert(7, "C")
-
         assertTrue(tree.delete(5))
         assertEquals(2, tree.size())
         assertEquals(7, tree.getRoot()?.left?.key)
@@ -124,7 +118,6 @@ class BinaryTreeTest {
         tree.insert(15, "C")
         tree.insert(12, "D")
         tree.insert(17, "E")
-
         assertTrue(tree.delete(15))
         assertEquals(4, tree.size())
         assertEquals(17, tree.getRoot()?.right?.key)
@@ -136,7 +129,6 @@ class BinaryTreeTest {
         tree.insert(10, "A")
         tree.insert(5, "B")
         tree.insert(15, "C")
-
         assertTrue(tree.delete(10))
         assertEquals(2, tree.size())
         assertEquals(15, tree.getRoot()?.key)
@@ -327,6 +319,34 @@ class BinaryTreeTest {
         return (1..count).associate {
             Random.nextInt() to RandomStringUtils.randomAlphanumeric(10)
         }.toList()
+    }
+
+    @RepeatedTest(10)
+    fun `balance should reduce tree height`() {
+        val tree = BinaryTree<Int, String>()
+        val data = generateUniqueData()
+        data.forEach { (key, value) -> tree.insert(key, value) }
+
+        val unbalancedHeight = tree.height()
+        tree.getBalance()
+        val balancedHeight = tree.height()
+
+        assertTrue(balancedHeight <= unbalancedHeight)
+    }
+
+    @RepeatedTest(10)
+    fun `behaves like TreeMap`() {
+        val tree = BinaryTree<Int, String>()
+        val reference = TreeMap<Int, String>()
+        val data = generateUniqueData()
+
+        data.forEach { (k, v) ->
+            tree.insert(k, v)
+            reference[k] = v
+        }
+
+        val randomKey = data.random().first
+        assertEquals(reference[randomKey], tree.search(randomKey))
     }
 
     private fun generateOperations(): List<Operation> {
