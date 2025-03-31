@@ -6,7 +6,7 @@ import trees.avl.AVLTree
 import kotlin.math.pow
 import kotlin.random.Random
 
-const val MAD_STRING_LENGTH = 20000
+const val MAD_STRING_LENGTH = 20_000
 const val MAD_MAX_COUNT_ELEMENTS_IN_TESTS = 20_000 // Adequate value is 20_000, mad value is 100_000+
 const val MAD_MIN_COUNT_ELEMENTS_IN_TESTS = 1_000 // Adequate value is 1_000, mad value is 95_000+
 
@@ -49,7 +49,7 @@ class MadTests {
 
     @RepeatedTest(100)
     fun `Mad AVL random test inOrder() method`() {
-        val avl = AVLTree<Int, Int>()
+        val avl = AVLTree<Int, String>()
         val allNumbers = mutableListOf<Int>()
         val cntNumbers = Random.nextInt(MAD_MIN_COUNT_ELEMENTS_IN_TESTS, MAD_MAX_COUNT_ELEMENTS_IN_TESTS)
 
@@ -59,7 +59,7 @@ class MadTests {
         allNumbers.shuffle()
         for (i in 0..<cntNumbers) {
             val currentInt = allNumbers[i]
-            avl.insert(currentInt, currentInt)
+            avl.insert(currentInt, randomStringByApacheCommons())
         }
         val order = avl.inOrder()
         allNumbers.sort()
