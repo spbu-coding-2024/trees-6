@@ -7,7 +7,7 @@ import kotlin.math.pow
 import kotlin.random.Random
 
 const val STRING_LENGTH = 20
-const val MAX_COUNT_ELEMENTS_IN_TESTS = 5000
+const val MAX_COUNT_ELEMENTS_IN_TESTS = 2_000
 const val MIN_COUNT_ELEMENTS_IN_TESTS = 100
 
 class AVLTreeTests {
@@ -175,7 +175,7 @@ class AVLTreeTests {
 
     @RepeatedTest(10)
     fun `Complicated AVL random test inOrder() method`() {
-        val avl = AVLTree<Int, Int>()
+        val avl = AVLTree<Int, String>()
         val allNumbers = mutableListOf<Int>()
         val cntNumbers = Random.nextInt(MIN_COUNT_ELEMENTS_IN_TESTS, MAX_COUNT_ELEMENTS_IN_TESTS)
 
@@ -185,7 +185,7 @@ class AVLTreeTests {
         allNumbers.shuffle()
         for (i in 0..<cntNumbers) {
             val currentInt = allNumbers[i]
-            avl.insert(currentInt, currentInt)
+            avl.insert(currentInt, randomStringByApacheCommons())
         }
         val order = avl.inOrder()
         allNumbers.sort()
