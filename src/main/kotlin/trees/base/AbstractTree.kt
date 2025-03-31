@@ -11,7 +11,7 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
     private var root: N? = null
     private var countNodes: Int = 0
 
-    protected fun getRoot(): N? = root
+    fun getRoot(): N? = root
 
     protected fun setRoot(newValue: N?): Boolean {
         root = newValue
