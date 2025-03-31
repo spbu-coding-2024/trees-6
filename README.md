@@ -136,9 +136,9 @@ The documentation is available in the directory [docs/](docs/)
 
 ## ***Contributors***
 
-+ @fUS1ONd
-+ @Galay-Nastya
-+ @vvmaksim
+[Кривоносов Константин](https://github.com/fUS1ONd)
+[Галай Анастасия](https://github.com/Galay-Nastya)
+[Варлыга Максим](https://github.com/vvmaksim)
 
 ## ***License*** :clipboard:
 
