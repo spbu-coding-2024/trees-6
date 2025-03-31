@@ -194,21 +194,13 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
      * @sample samples.avl.sampleContains
      */
     fun contains(value: V): Boolean {
-        val order = inOrder()
-        findNodeInListByValue(order, value) ?: return false
-        return true
+        return checkExistenceOfValueRecursively(value, getRoot())
     }
 
-    private fun findNodeInListByValue(
-        list: List<Node<K, V, N>>,
-        value: V,
-    ): Node<K, V, N>? {
-        for (i in list.indices) {
-            if (list[i].value == value) {
-                return list[i]
-            }
-        }
-        return null
+    private fun checkExistenceOfValueRecursively(value: V, node: Node<K, V, N>?): Boolean {
+        if (node == null) return false
+        if (node.value == value) return true
+        return checkExistenceOfValueRecursively(value, node.left) || checkExistenceOfValueRecursively(value, node.right)
     }
 
     // Just a plug for private methods
