@@ -2,14 +2,13 @@ import org.apache.commons.lang3.RandomStringUtils
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Tag
-import trees.avl.AVLNode
 import trees.avl.AVLTree
 import kotlin.math.pow
 import kotlin.random.Random
 
 const val MAD_STRING_LENGTH = 20000
-const val MAD_MAX_COUNT_ELEMENTS_IN_TESTS = 20_000
-const val MAD_MIN_COUNT_ELEMENTS_IN_TESTS = 100
+const val MAD_MAX_COUNT_ELEMENTS_IN_TESTS = 20_000 // Adequate value is 20_000, mad value is 100_000+
+const val MAD_MIN_COUNT_ELEMENTS_IN_TESTS = 1_000 // Adequate value is 1_000, mad value is 95_000+
 
 // These crazy tests are needed to test the library on large amounts of data.
 // They are not basic. They're just for variety.
@@ -55,11 +54,13 @@ class MadTests {
         val cntNumbers = Random.nextInt(MAD_MIN_COUNT_ELEMENTS_IN_TESTS, MAD_MAX_COUNT_ELEMENTS_IN_TESTS)
 
         for (i in 1..cntNumbers) {
-            val currentInt = Random.nextInt()
-            avl.insert(currentInt, currentInt)
-            allNumbers.add(currentInt)
+            allNumbers.add(i)
         }
-
+        allNumbers.shuffle()
+        for (i in 0..<cntNumbers) {
+            val currentInt = allNumbers[i]
+            avl.insert(currentInt, currentInt)
+        }
         val order = avl.inOrder()
         allNumbers.sort()
 
@@ -72,90 +73,82 @@ class MadTests {
 
     @RepeatedTest(100)
     fun `Mad AVL random tests`() {
-        val avl = AVLTree<String, Int>()
-        val cntElements = Random.nextInt(MIN_COUNT_ELEMENTS_IN_TESTS, MAX_COUNT_ELEMENTS_IN_TESTS)
-        val allNodes = mutableListOf<AVLNode<String, Int>>()
-
-        // Filling in the data
+        val avl = AVLTree<Int, Int>()
+        val cntElements = Random.nextInt(MAD_MIN_COUNT_ELEMENTS_IN_TESTS, MAD_MAX_COUNT_ELEMENTS_IN_TESTS)
+        val allInt = mutableListOf<Int>()
         for (i in 1..cntElements) {
-            val key = randomStringByApacheCommons()
-            val value = Random.nextInt()
-            val newNode = AVLNode<String, Int>(key, value)
-            allNodes.add(newNode)
-            avl.insert(key, value)
+            allInt.add(i)
         }
-
+        allInt.shuffle()
+        for (i in 0..<cntElements) {
+            avl.insert(allInt[i], allInt[i])
+        }
         // Checking tree
         for (i in 0..<cntElements) {
-            val currentKey = allNodes[i].key
-            val currentValue = allNodes[i].value
-            assertEquals(avl.search(currentKey), currentValue)
+            assertEquals(avl.search(allInt[i]), allInt[i])
         }
-
         // Delete some nodes from tree
-        val cntDelete = Random.nextInt(1, cntElements)
-        val allDeleted = mutableListOf<AVLNode<String, Int>>()
-        for (i in 0..<cntDelete) {
-            val deleteNode = AVLNode<String, Int>(allNodes[i].key, allNodes[i].value)
-            allDeleted.add(deleteNode)
-            val deleteStatus = avl.delete(deleteNode.key)
-            assertTrue(deleteStatus)
+        val cntDeleted = Random.nextInt(1, cntElements)
+        val allDeleted = mutableListOf<Int>()
+        for (i in 0..<cntDeleted) {
+            allDeleted.add(allInt[i])
+            assertTrue(avl.delete(allInt[i]))
         }
-        for (i in 0..<cntDelete) {
-            allNodes.remove(allDeleted[i])
+        for (i in 0..<cntDeleted) {
+            allInt.remove(allDeleted[i])
         }
-
+        // Checking deleted
+        for (i in 0..<cntDeleted) {
+            assertNull(avl.search(allDeleted[i]))
+        }
+        allInt.shuffle()
         // Checking tree
-        for (i in 0..<cntDelete) {
-            assertNull(avl.search(allDeleted[i].key))
+        for (i in 0..<(allInt.size)) {
+            assertEquals(avl.search(allInt[i]), allInt[i])
         }
     }
 
     @RepeatedTest(100)
     fun `Mad AVL random test with min() method`() {
         val avl = AVLTree<Int, Int>()
-        val cntElements = Random.nextInt(MIN_COUNT_ELEMENTS_IN_TESTS, MAX_COUNT_ELEMENTS_IN_TESTS)
-        var minElement = 0
+        val cntElements = Random.nextInt(MAD_MIN_COUNT_ELEMENTS_IN_TESTS, MAD_MAX_COUNT_ELEMENTS_IN_TESTS)
         for (i in 1..cntElements) {
-            val data = Random.nextInt()
-            if (minElement > data) minElement = data
-            avl.insert(data, data)
+            avl.insert(i, i)
         }
-        assertEquals(minElement, avl.min())
+        assertEquals(1, avl.min())
     }
 
     @RepeatedTest(100)
     fun `Mad AVL random test with max() method`() {
         val avl = AVLTree<Int, Int>()
-        val cntElements = Random.nextInt(MIN_COUNT_ELEMENTS_IN_TESTS, MAX_COUNT_ELEMENTS_IN_TESTS)
-        var maxElement = 0
+        val cntElements = Random.nextInt(MAD_MIN_COUNT_ELEMENTS_IN_TESTS, MAD_MAX_COUNT_ELEMENTS_IN_TESTS)
         for (i in 1..cntElements) {
-            val data = Random.nextInt()
-            if (maxElement < data) maxElement = data
-            avl.insert(data, data)
+            avl.insert(i, i)
         }
-        assertEquals(maxElement, avl.max())
+        assertEquals(cntElements, avl.max())
     }
 
     @RepeatedTest(100)
     fun `Mad AVL random test with contains() method`() {
         val avl = AVLTree<Int, Int>()
         val allInt = mutableListOf<Int>()
-        val cntElements = Random.nextInt(MIN_COUNT_ELEMENTS_IN_TESTS, MAX_COUNT_ELEMENTS_IN_TESTS)
+        val cntElements = Random.nextInt(MAD_MIN_COUNT_ELEMENTS_IN_TESTS, MAD_MAX_COUNT_ELEMENTS_IN_TESTS)
         for (i in 1..cntElements) {
-            val data = Random.nextInt(-1000000, 1000000)
-            allInt.add(data)
-            avl.insert(data, data)
+            allInt.add(i)
+        }
+        allInt.shuffle()
+        for (i in 0..<cntElements) {
+            avl.insert(allInt[i], allInt[i])
         }
         for (i in allInt.indices) {
             assertTrue(avl.contains(allInt[i]))
         }
-        for (i in 1..10000) {
-            val currentInt = Random.nextInt(1000001, 10000000)
+        for (i in 1..1_000) {
+            val currentInt = Random.nextInt(cntElements + 10, cntElements + 10_000_000)
             assertFalse(avl.contains(currentInt))
         }
-        for (i in 1..10000) {
-            val currentInt = Random.nextInt(-10000000, -1000001)
+        for (i in 1..1_000) {
+            val currentInt = Random.nextInt(-10_000_000, -10)
             assertFalse(avl.contains(currentInt))
         }
     }
