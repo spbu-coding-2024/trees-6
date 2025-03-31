@@ -88,6 +88,13 @@ class BinaryTree<K : Comparable<K>, V> : AbstractTree<K, V, BinaryNode<K, V>>() 
         return current
     }
 
+    fun height(): Int = height(getRoot())
+
+    private fun height(node: BinaryNode<K, V>?): Int {
+        return if (node == null) 0
+        else maxOf(height(node.left), height(node.right)) + 1
+    }
+
     fun getBalance(): BinaryTree<K, V> {
         val nodes = inOrder()
         setRoot(buildBalancedTree(nodes))
