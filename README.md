@@ -47,9 +47,21 @@ Currently, the following three types are supported:
 
 ## ***Usage***
 
+### ***Quick start***
++ Download the repository from GitHub via ssh or https:
+```
+git clone https://github.com/spbu-coding-2024/trees-6.git
+```
+or
+```
+git clone git@github.com:spbu-coding-2024/trees-6.git
+```
+
++ Check out the [samples/](src/main/kotlin/samples)
+
 ### **AVLTree simply examples**
 
-These examples can be adapted for other tree types as well.  
+**These examples can be adapted for other types of trees.**
 
 A simple example of using `AVLTree<K : Comparable<K>, V>`:
 
@@ -58,7 +70,6 @@ val avl = AVLTree<Int, String>()
 val key: Int = 10
 val value: String = "Some string"
 avl.insert(key, value)
-
 val resultSearch = avl.search(key) ?: "value not found =("
 println(resultSearch)
 ```
@@ -79,17 +90,13 @@ fun printAllNodes(avl: AVLTree<Int, String>) {
         println("Key: ${order[i].key} Value: ${order[i].value}")
     }
 }
-
 val avl = AVLTree<Int, String>()
 avl.insert(15, "Some text")
 avl.insert(10, "qwerty")
 avl.insert(52, "52")
-
 printAllNodes(avl)
 println("_____Before some changes:_____")
-
 avl.delete(15)
-
 printAllNodes(avl)
 ```
 
@@ -105,9 +112,33 @@ Key: 52 Value: 52
 ```
 Additional examples can be found in the directory [samples/](src/main/kotlin/samples)
 
+## ***Gradle commands*** :elephant:
+Commands should be run from the root directory of the project.
+
++ Running tests
+```
+./gradlew test
+```
++ Build
+```
+./gradlew build
+```
+
++ Documentation generation
+```
+./gradlew dokkaHtml
+```
+The documentation will be updated in the directory [docs/](docs/)
+
 ## ***Documentation***
 
 The documentation is available in the directory [docs/](docs/)
+
+## ***Contributors***
+
++ @fUS1ONd
++ @Galay-Nastya
++ @vvmaksim
 
 ## ***License*** :clipboard:
 
