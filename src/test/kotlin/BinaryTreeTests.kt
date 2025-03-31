@@ -2,6 +2,15 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import trees.binary.BinaryTree
+import trees.binary.BinaryNode
+
+
+import org.junit.jupiter.api.RepeatedTest
+import org.apache.commons.lang3.RandomStringUtils
+import kotlin.random.Random
+
+const val MIN_OPERATIONS = 50
+const val MAX_OPERATIONS = 200
 
 class BinaryTreeTest {
     private lateinit var tree: BinaryTree<Int, String>
@@ -225,5 +234,127 @@ class BinaryTreeTest {
         assertEquals(40, tree.getRoot()?.left?.key)
         assertEquals(70, tree.getRoot()?.right?.key)
         assertEquals(80, tree.getRoot()?.right?.right?.key)
+    }
+
+    @RepeatedTest(10)
+    fun `insert maintains BST properties`() {
+        val tree = BinaryTree<Int, String>()
+        val data = generateUniqueData()
+
+        data.forEach { (key, value) ->
+            tree.insert(key, value)
+            assertTrue(verifyBSTProperties(tree))
+        }
+    }
+
+    @RepeatedTest(10)
+    fun `delete maintains BST properties`() {
+        val tree = BinaryTree<Int, String>()
+        val data = generateUniqueData().toMutableList()
+
+        data.forEach { (key, value) -> tree.insert(key, value) }
+
+        data.shuffle()
+        val toDelete = data.take(data.size / 2)
+
+        toDelete.forEach { (key, _) ->
+            assertTrue(tree.delete(key))
+            assertTrue(verifyBSTProperties(tree))
+        }
+    }
+
+    @RepeatedTest(10)
+    fun `in-order traversal returns sorted keys `() {
+        val tree = BinaryTree<Int, String>()
+        val data = generateUniqueData()
+
+        data.forEach { (key, value) -> tree.insert(key, value) }
+
+        val sortedKeys = data.map { it.first }.sorted()
+        val treeKeys = tree.inOrder().map { it.key }
+
+        assertEquals(sortedKeys, treeKeys)
+    }
+
+    @RepeatedTest(10)
+    fun `size is consistent with operations`() {
+        val tree = BinaryTree<Int, String>()
+        val operations = generateOperations()
+
+        var expectedSize = 0
+        val presentKeys = mutableSetOf<Int>()
+
+        operations.forEach { op ->
+            when (op) {
+                is Operation.Insert -> {
+                    val wasPresent = presentKeys.contains(op.key)
+                    tree.insert(op.key, op.value)
+                    if (!wasPresent) {
+                        presentKeys.add(op.key)
+                        expectedSize++
+                    }
+                }
+                is Operation.Delete -> {
+                    val wasPresent = presentKeys.contains(op.key)
+                    val deleted = tree.delete(op.key)
+                    assertEquals(wasPresent, deleted)
+                    if (wasPresent) {
+                        presentKeys.remove(op.key)
+                        expectedSize--
+                    }
+                }
+            }
+            assertEquals(expectedSize, tree.size())
+        }
+    }
+
+    @RepeatedTest(10)
+    fun `findMin and findMax return correct values`() {
+        val tree = BinaryTree<Int, String>()
+        val data = generateUniqueData()
+
+        data.forEach { (key, value) -> tree.insert(key, value) }
+
+        val minKey = data.minOf { it.first }
+        val maxKey = data.maxOf { it.first }
+
+        assertEquals(minKey, tree.getRoot()?.let { tree.findMinNode(it) }?.key)
+        assertEquals(maxKey, tree.getRoot()?.let { tree.findMaxNode(it) }?.key)
+    }
+
+    private fun generateUniqueData(): List<Pair<Int, String>> {
+        val count = Random.nextInt(MIN_OPERATIONS, MAX_OPERATIONS)
+        return (1..count).associate {
+            Random.nextInt() to RandomStringUtils.randomAlphanumeric(10)
+        }.toList()
+    }
+
+    private fun generateOperations(): List<Operation> {
+        val count = Random.nextInt(MIN_OPERATIONS, MAX_OPERATIONS)
+        return List(count) {
+            if (Random.nextBoolean()) {
+                Operation.Insert(Random.nextInt(), RandomStringUtils.randomAlphanumeric(10))
+            } else {
+                Operation.Delete(Random.nextInt())
+            }
+        }
+    }
+
+    private fun verifyBSTProperties(tree: BinaryTree<Int, String>): Boolean {
+        fun verify(node: BinaryNode<Int, String>?): Boolean {
+            if (node == null) return true
+
+            val leftValid = node.left?.let { it.key < node.key } ?: true
+            val rightValid = node.right?.let { it.key > node.key } ?: true
+
+            return leftValid && rightValid && verify(node.left) && verify(node.right)
+        }
+
+        return verify(tree.getRoot())
+    }
+
+    private sealed class Operation {
+        data class Insert(val key: Int, val value: String) : Operation()
+        data class Delete(val key: Int) : Operation()
     }
 }
