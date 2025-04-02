@@ -4,26 +4,250 @@ import trees.base.AbstractTree
 
 class RedBlackTree<K : Comparable<K>, V : Any> : AbstractTree<K, V, RedBlackNode<K, V>>() {
 
-    fun printTree() {
-        printTreeRecursive(getRoot(), "", true)
+    private fun rotateRight(pivot: RedBlackNode<K, V>) {
+        val parent = pivot.parent
+        val leftChild = pivot.left ?: return
 
-        println()
+        pivot.left = leftChild.right
+        leftChild.right?.parent = pivot
+
+        leftChild.right = pivot
+        pivot.parent = leftChild
+
+        updateParentReference(parent, pivot, leftChild)
     }
 
-    private fun printTreeRecursive(node: RedBlackNode<K, V>?, indent: String, isRight: Boolean) {
-        if (node == null) return
+    private fun rotateLeft(pivot: RedBlackNode<K, V>) {
+        val parent = pivot.parent
+        val rightChild = pivot.right ?: return
 
-        val newIndent = indent + if (isRight) "    " else "│   "
-        printTreeRecursive(node.right, newIndent, true)
-        println("$indent${if (isRight) "└── " else "├── "}${node.key} (${node.color})")
-        printTreeRecursive(node.left, newIndent, false)
+        pivot.right = rightChild.left
+        rightChild.left?.parent = pivot
+
+        rightChild.left = pivot
+        pivot.parent = rightChild
+
+        updateParentReference(parent, pivot, rightChild)
+    }
+
+    private fun updateParentReference(parent: RedBlackNode<K, V>?, oldChild: RedBlackNode<K, V>, newChild: RedBlackNode<K, V>?) {
+        when {
+            parent == null -> setRoot(newChild)
+            parent.left == oldChild -> parent.left = newChild
+            parent.right == oldChild -> parent.right = newChild
+        }
+        newChild?.parent = parent
+    }
+
+    private fun isNodeBlack(node: RedBlackNode<K, V>?): Boolean {
+        return node == null || node.color == Colors.BLACK
+    }
+
+    override fun insert(key: K, value: V): RedBlackNode<K, V> {
+        val existingNode = findNodeByKey(key)
+
+        if (existingNode != null) {
+            existingNode.value = value
+            return existingNode
+        }
+
+        var currentNode = getRoot()
+        var parentNode: RedBlackNode<K, V>? = null
+
+        while (currentNode != null) {
+            parentNode = currentNode
+            currentNode = if (key < currentNode.key) currentNode.left else currentNode.right
+        }
+
+        val newNode = RedBlackNode(key, value)
+        when {
+            parentNode == null -> setRoot(newNode)
+            key < parentNode.key -> parentNode.left = newNode
+            else -> parentNode.right = newNode
+        }
+        newNode.parent = parentNode
+
+        balanceAfterInsert(newNode)
+        addOneToCountNodes()
+        return newNode
+    }
+
+    private fun balanceAfterInsert(newNode: RedBlackNode<K, V>) {
+        var parent = newNode.parent
+
+        if (parent == null) {
+            newNode.color = Colors.BLACK
+            return
+        }
+
+        if (parent.color == Colors.BLACK) return
+
+        val grandparent = parent.parent ?: throw IllegalStateException()
+        val uncle = getUncleNode(parent)
+
+        if (uncle != null && uncle.color == Colors.RED) {
+            parent.color = Colors.BLACK
+            grandparent.color = Colors.RED
+            uncle.color = Colors.BLACK
+
+            balanceAfterInsert(grandparent)
+        } else if (parent == grandparent.left) {
+            if (newNode == parent.right) {
+                rotateLeft(parent)
+                parent = newNode
+            }
+            rotateRight(grandparent)
+            parent.color = Colors.BLACK
+            grandparent.color = Colors.RED
+        } else {
+            if (newNode == parent.left) {
+                rotateRight(parent)
+                parent = newNode
+            }
+            rotateLeft(grandparent)
+            parent.color = Colors.BLACK
+            grandparent.color = Colors.RED
+        }
+    }
+
+    private fun getUncleNode(parent: RedBlackNode<K, V>): RedBlackNode<K, V>? {
+        val grandparent = parent.parent ?: return null
+        return if (parent == grandparent.left) grandparent.right else grandparent.left
+    }
+
+    override fun delete(key: K): Boolean {
+        var nodeToDelete = getRoot()
+
+        while (nodeToDelete != null && nodeToDelete.key != key) {
+            nodeToDelete = if (key < nodeToDelete.key) nodeToDelete.left else nodeToDelete.right
+        }
+
+        if (nodeToDelete == null) return false
+
+        val replacementNode: RedBlackNode<K, V>?
+        val deletedNodeColor: Colors
+
+        if (nodeToDelete.left == null || nodeToDelete.right == null) {
+            replacementNode = removeNodeWithSingleChild(nodeToDelete)
+            deletedNodeColor = nodeToDelete.color
+        } else {
+            val successor = findMinimumNode(nodeToDelete.right) ?: throw IllegalStateException()
+            nodeToDelete.key = successor.key
+            nodeToDelete.value = successor.value
+            replacementNode = removeNodeWithSingleChild(successor)
+            deletedNodeColor = successor.color
+        }
+
+        if (deletedNodeColor == Colors.BLACK) {
+            balanceAfterDelete(replacementNode ?: throw IllegalStateException())
+
+            if (replacementNode is NilNode) {
+                updateParentReference(replacementNode.parent, replacementNode, null)
+            }
+        }
+        removeOneFromCountNodes()
+        return true
+    }
+
+    private fun removeNodeWithSingleChild(node: RedBlackNode<K, V>): RedBlackNode<K, V>? {
+        return when {
+            node.left != null -> {
+                updateParentReference(node.parent, node, node.left)
+                node.left
+            }
+
+            node.right != null -> {
+                updateParentReference(node.parent, node, node.right)
+                node.right
+            }
+
+            else -> {
+                val replacement = if (node.color == Colors.BLACK) NilNode<K, V>() else null
+                updateParentReference(node.parent, node, replacement)
+                replacement
+            }
+        }
+    }
+
+    private fun balanceAfterDelete(node: RedBlackNode<K, V>) {
+        if (node == getRoot()) {
+            node.color = Colors.BLACK
+            return
+        }
+
+        var sibling = getSiblingNode(node)
+
+        if (sibling?.color == Colors.RED) {
+            handleRedSiblingCase(node, sibling)
+            sibling = getSiblingNode(node)
+        }
+
+        if (isNodeBlack(sibling?.left) && isNodeBlack(sibling?.right)) {
+            sibling?.color = Colors.RED
+
+            if (node.parent?.color == Colors.RED) {
+                node.parent?.color = Colors.BLACK
+            } else {
+                balanceAfterDelete(node.parent ?: throw IllegalStateException())
+            }
+        } else {
+            handleBlackSiblingWithRedChildCase(node, sibling ?: throw IllegalStateException())
+        }
+    }
+
+    private fun getSiblingNode(node: RedBlackNode<K, V>): RedBlackNode<K, V>? {
+        val parent = node.parent
+        return if (node == parent?.left) parent.right else parent?.left
+    }
+
+    private fun handleRedSiblingCase(node: RedBlackNode<K, V>, sibling: RedBlackNode<K, V>) {
+        sibling.color = Colors.BLACK
+        val parent = node.parent ?: throw IllegalStateException()
+        parent.color = Colors.RED
+
+        if (node == parent.left) rotateLeft(parent) else rotateRight(parent)
+    }
+
+    private fun handleBlackSiblingWithRedChildCase(node: RedBlackNode<K, V>, siblingCopied: RedBlackNode<K, V>) {
+        val isLeftChild = node == node.parent?.left
+        var sibling: RedBlackNode<K, V> = siblingCopied
+        if (isLeftChild && isNodeBlack(sibling.right)) {
+            sibling.left?.color = Colors.BLACK
+            sibling.color = Colors.RED
+            rotateRight(sibling)
+            sibling = node.parent?.right ?: throw IllegalStateException()
+        } else if (!isLeftChild && isNodeBlack(sibling.left)) {
+            sibling.right?.color = Colors.BLACK
+            sibling.color = Colors.RED
+            rotateLeft(sibling)
+            sibling = node.parent?.left ?: throw IllegalStateException()
+        }
+
+        sibling.color = node.parent?.color ?: Colors.BLACK
+        node.parent?.color = Colors.BLACK
+
+        if (isLeftChild) {
+            sibling.right?.color = Colors.BLACK
+            rotateLeft(node.parent ?: throw IllegalStateException())
+        } else {
+            sibling.left?.color = Colors.BLACK
+            rotateRight(node.parent ?: throw IllegalStateException())
+        }
+    }
+
+    private fun findMinimumNode(node: RedBlackNode<K, V>?): RedBlackNode<K, V>? {
+        var current = node
+        while (current?.left != null) {
+            current = current.left
+        }
+        return current
     }
 
     fun checkRedBlackProperties(): Boolean {
         val root = getRoot() ?: return true
 
         if (root.color != Colors.BLACK) {
-            throw IllegalStateException("Корень должен быть черным")
+            throw IllegalStateException("Root must be black")
         }
 
         return checkNodeProperties(root)
@@ -32,461 +256,36 @@ class RedBlackTree<K : Comparable<K>, V : Any> : AbstractTree<K, V, RedBlackNode
     private fun checkNodeProperties(node: RedBlackNode<K, V>?): Boolean {
         if (node == null) return true
 
-        if (isRed(node)) {
-            if (isRed(getLeftChild(node)) || isRed(getRightChild(node))) {
-                throw IllegalStateException("У красного узла не может быть красных потомков")
+        if (isNodeRed(node)) {
+            if (isNodeRed(node.left) || isNodeRed(node.right)) {
+                throw IllegalStateException("Red node cannot have red children")
             }
         }
 
-        val leftBlackHeight = getBlackHeight(getLeftChild(node))
-        val rightBlackHeight = getBlackHeight(getRightChild(node))
+        val leftBlackHeight = calculateBlackHeight(node.left)
+        val rightBlackHeight = calculateBlackHeight(node.right)
         if (leftBlackHeight != rightBlackHeight) {
-            throw IllegalStateException("Черная высота должна быть одинаковой для всех путей")
+            throw IllegalStateException("Black height must be equal for all paths")
         }
 
-        return checkNodeProperties(getLeftChild(node)) && checkNodeProperties(getRightChild(node))
+        return checkNodeProperties(node.left) && checkNodeProperties(node.right)
     }
 
-    private fun getBlackHeight(node: RedBlackNode<K, V>?): Int {
+    private fun calculateBlackHeight(node: RedBlackNode<K, V>?): Int {
         if (node == null) return 1
-        val leftBlackHeight = getBlackHeight(node.left)
-        if (node.color == Colors.BLACK) {
-            return leftBlackHeight + 1
+        val height = calculateBlackHeight(node.left)
+        return if (node.color == Colors.BLACK) height + 1 else height
+    }
+
+    private fun findNodeByKey(key: K): RedBlackNode<K, V>? {
+        var current = getRoot()
+        while (current != null && key != current.key) {
+            current = if (key < current.key) current.left else current.right
         }
-        return leftBlackHeight
+        return current
     }
 
-    override fun insert(key: K, value: V): RedBlackNode<K, V> {
-        val existingNode = searchNode(key)
-
-        if (existingNode != null) {
-            existingNode.value = value
-            return existingNode
-        }
-
-        val newNode: RedBlackNode<K, V> = RedBlackNode(key, value)
-
-        setRelationsOrSetRoot(newNode)
-
-        fixInsertion(newNode)
-
-        addOneToCountNodes()
-
-        return newNode
-    }
-
-    private fun setRelationsOrSetRoot(node: RedBlackNode<K, V>) {
-        val parentNode = findParentOfInsertedNode(node)
-
-        node.parent = parentNode
-
-        if (parentNode == null) {
-            setRoot(node)
-        } else if (node.key < parentNode.key) {
-            parentNode.left = node
-        } else {
-            parentNode.right = node
-        }
-    }
-
-    private fun findParentOfInsertedNode(node: RedBlackNode<K, V>): RedBlackNode<K, V>? {
-        var parentNode: RedBlackNode<K, V>? = null
-        var placeOfNewNode: RedBlackNode<K, V>? = getRoot() // куда бы встала нода
-
-        while (placeOfNewNode != null) {
-            parentNode = placeOfNewNode
-
-            if (node.key < placeOfNewNode.key) {
-                placeOfNewNode = getLeftChild(placeOfNewNode)
-            } else {
-                placeOfNewNode = getRightChild(placeOfNewNode)
-            }
-        }
-
-        return parentNode
-    }
-
-    private fun fixInsertion(originNode: RedBlackNode<K, V>) {
-        var node: RedBlackNode<K, V>? = originNode
-
-        while (parentExistsAndItsRed(node)) {
-            if (parentIsLeftChild(node)) {
-                val uncle = getUncleWhenParentIsLeftChild(node)
-                if (isRed(uncle)) {
-                    setParentAndUncleToBlackAndGrandParentToRed(node)
-                    node = getGrandParentNodeOrNull(node)
-                } else {
-                    if (nodeIsRightChild(node)) {
-                        node = getParentNodeOrNull(node)
-                        rotateLeft(node)
-                    }
-                    setParentToBlackAndGrandparentToRed(node)
-                    rotateRight(getGrandParentNodeOrNull(node))
-                }
-            } else {
-                val uncle = getUncleWhenParentIsRightChild(node)
-                if (isRed(uncle)) {
-                    setParentAndUncleToBlackAndGrandParentToRed(node)
-                    node = getGrandParentNodeOrNull(node)
-                } else {
-                    if (nodeIsLeftChild(node)) {
-                        node = getParentNodeOrNull(node)
-                        rotateRight(node)
-                    }
-                    setParentToBlackAndGrandparentToRed(node)
-                    rotateLeft(getGrandParentNodeOrNull(node))
-                }
-            }
-
-            if (isRoot(node)) break
-        }
-
-        setRootColorToBlack()
-    }
-
-    private fun fixDeletion(affectedNode: RedBlackNode<K, V>?) {
-        var currentNode = affectedNode
-        while (currentNode != getRoot() && currentNode?.color == Colors.BLACK) {
-            if (nodeIsLeftChild(currentNode)) {
-                var sibling = currentNode.parent?.right
-                if (isRed(sibling)) {
-                    setBlack(sibling)
-                    setRed(currentNode.parent)
-                    rotateLeft(currentNode.parent)
-                    sibling = currentNode.parent?.right
-                }
-
-                if (childrenAreBlack(sibling)) {
-                    setRed(sibling)
-                    currentNode = getParentNodeOrNull(currentNode)
-                } else {
-                    if (isBlack(sibling?.right)) {
-                        setBlack(sibling?.left)
-                        setRed(sibling)
-                        rotateRight(sibling)
-                        sibling = currentNode.parent?.right
-                    }
-
-                    sibling?.color = currentNode.parent?.color ?: Colors.BLACK
-                    setBlack(currentNode.parent)
-                    setBlack(sibling?.right)
-                    rotateLeft(currentNode.parent)
-                    currentNode = getRoot()
-                }
-            } else {
-                var sibling = currentNode.parent?.left
-                if (isRed(sibling)) {
-                    setBlack(sibling)
-                    setRed(currentNode.parent)
-                    rotateRight(currentNode.parent)
-                    sibling = currentNode.parent?.left
-                }
-
-                if (childrenAreBlack(sibling)) {
-                    setRed(sibling)
-                    currentNode = currentNode.parent
-                } else {
-                    if (isBlack(sibling?.left)) {
-                        setBlack(sibling?.right)
-                        setRed(sibling)
-                        rotateLeft(sibling)
-                        sibling = currentNode.parent?.left
-                    }
-
-                    sibling?.color = currentNode.parent?.color ?: Colors.BLACK
-                    setBlack(currentNode.parent)
-                    setBlack(sibling?.left)
-                    rotateRight(currentNode.parent)
-                    currentNode = getRoot()
-                }
-            }
-        }
-        setBlack(currentNode)
-    }
-
-    private fun deleteNode(root: RedBlackNode<K, V>?, key: K): Boolean {
-        var currentNode = root
-        var targetNode: RedBlackNode<K, V>? = null
-        while (currentNode != null) {
-            currentNode = if (key < currentNode.key) {
-                currentNode.left
-            } else {
-                if (key == currentNode.key) targetNode = currentNode
-                getRightChild(currentNode)
-            }
-        }
-
-        if (targetNode == null) {
-            return false
-        }
-
-        var replacementNode = targetNode
-        var originalColor = replacementNode.color
-        val affectedNode: RedBlackNode<K, V>?
-
-        when {
-            targetNode.left == null -> {
-                affectedNode = targetNode.right
-                transplant(targetNode, targetNode.right)
-            }
-
-            targetNode.right == null -> {
-                affectedNode = targetNode.left
-                transplant(targetNode, targetNode.left)
-            }
-
-            else -> {
-                replacementNode = findLeftmostChild(targetNode.right)
-                if (replacementNode?.color != null) {
-                    originalColor = replacementNode.color
-                }
-
-                affectedNode = replacementNode?.right
-                if (replacementNode?.parent == targetNode) {
-                    affectedNode?.parent = replacementNode
-                } else {
-                    transplant(replacementNode, replacementNode?.right)
-                    replacementNode?.right = targetNode.right
-                    replacementNode?.right?.parent = replacementNode
-                }
-                transplant(targetNode, replacementNode)
-                replacementNode?.left = targetNode.left
-                replacementNode?.left?.parent = replacementNode
-                replacementNode?.color = targetNode.color
-            }
-        }
-
-        if (originalColor == Colors.BLACK) {
-            fixDeletion(affectedNode)
-        }
-
-        removeOneFromCountNodes()
-        return true
-    }
-
-    override fun delete(key: K): Boolean {
-        return deleteNode(getRoot(), key)
-    }
-
-    private fun getUncleWhenParentIsLeftChild(node: RedBlackNode<K, V>?): RedBlackNode<K, V>? {
-        val grandParent = getGrandParentNodeOrNull(node)
-        return getRightChild(grandParent)
-    }
-
-    private fun getUncleWhenParentIsRightChild(node: RedBlackNode<K, V>?): RedBlackNode<K, V>? {
-        val grandParent = getGrandParentNodeOrNull(node)
-        return getLeftChild(grandParent)
-    }
-
-    private fun getGrandParentNodeOrNull(node: RedBlackNode<K, V>?): RedBlackNode<K, V>? {
-        val grandparent: RedBlackNode<K, V>? = node?.parent?.parent
-
-        if (grandparent != null) {
-            return grandparent
-        }
-        return null
-    }
-
-    private fun parentExistsAndItsRed(node: RedBlackNode<K, V>?): Boolean {
-        val parent: RedBlackNode<K, V>? = getParentNodeOrNull(node)
-        return (parent != null && isRed(parent))
-    }
-
-    private fun parentIsLeftChild(node: RedBlackNode<K, V>?): Boolean {
-        val parent: RedBlackNode<K, V>? = getParentNodeOrNull(node)
-
-        return (nodeIsLeftChild(parent))
-    }
-
-    private fun setParentAndUncleToBlackAndGrandParentToRed(node: RedBlackNode<K, V>?) {
-        // Кейс: отец - левый ребенок в семье
-        val grandparent: RedBlackNode<K, V>? = getGrandParentNodeOrNull(node)
-
-        if (grandparent != null) {
-            setBlack(getLeftChild(grandparent))
-            setBlack(getRightChild(grandparent))
-            setRed(grandparent)
-        }
-    }
-
-    private fun setParentToBlackAndGrandparentToRed(node: RedBlackNode<K, V>?) {
-        // Кейс: отец - левый ребенок в семье
-        val grandparent: RedBlackNode<K, V>? = getGrandParentNodeOrNull(node)
-        val parent: RedBlackNode<K, V>? = getParentNodeOrNull(node)
-
-        setBlack(parent)
-        setRed(grandparent)
-
-    }
-
-    private fun rotateLeft(target: RedBlackNode<K, V>?) {
-        val copyOfRightSon: RedBlackNode<K, V>? = getRightChild(target)
-        target?.right = getLeftChild(copyOfRightSon)
-
-        // устанавливаем relationships
-        if (leftChildIsNotNull(copyOfRightSon)) {
-            copyOfRightSon?.left?.parent = target
-        }
-
-        // Отцом копии назначаем деда
-        copyOfRightSon?.parent = getParentNodeOrNull(target)
-
-        if (getParentNodeOrNull(target) == null) {
-            setRoot(copyOfRightSon)
-        } else if (nodeIsLeftChild(target)) {
-            target?.parent?.left = copyOfRightSon
-        } else {
-            target?.parent?.right = copyOfRightSon
-        }
-
-        copyOfRightSon?.left = target
-        target?.parent = copyOfRightSon
-    }
-
-    private fun rotateRight(target: RedBlackNode<K, V>?) {
-        val copyOfLeftSon: RedBlackNode<K, V>? = getLeftChild(target)
-        target?.left = getRightChild(copyOfLeftSon)
-
-        if (rightChildIsNotNull(copyOfLeftSon)) {
-            copyOfLeftSon?.right?.parent = target
-        }
-
-        copyOfLeftSon?.parent = getParentNodeOrNull(target)
-
-        if (getParentNodeOrNull(target) == null) {
-            setRoot(copyOfLeftSon)
-        } else if (nodeIsRightChild(target)) {
-            target?.parent?.right = copyOfLeftSon
-        } else {
-            target?.parent?.left = copyOfLeftSon
-        }
-
-        copyOfLeftSon?.right = target
-        target?.parent = copyOfLeftSon
-    }
-
-    private fun searchNode(key: K): RedBlackNode<K, V>? {
-        var wanted = getRoot()
-        while (wanted != null && key != wanted.key) {
-            if (key < wanted.key) {
-                wanted = getLeftChild(wanted)
-            } else {
-                wanted = getRightChild(wanted)
-            }
-        }
-        return wanted
-    }
-
-    private fun leftChildIsNotNull(node: RedBlackNode<K, V>?): Boolean {
-        return (getLeftChild(node) != null)
-    }
-
-    private fun rightChildIsNotNull(node: RedBlackNode<K, V>?): Boolean {
-        return (getRightChild(node) != null)
-    }
-
-    private fun getRightChild(node: RedBlackNode<K, V>?): RedBlackNode<K, V>? {
-        return node?.right
-    }
-
-    private fun getLeftChild(node: RedBlackNode<K, V>?): RedBlackNode<K, V>? {
-        return node?.left
-    }
-
-    /**
-     * Заменяет поддерево с корнем в oldNode на поддерево с корнем в newNode.
-     * @param oldNode нода, которую нужно заменить
-     * @param newNode нода, которую будет на его месте
-     */
-    private fun transplant(oldNode: RedBlackNode<K, V>?, newNode: RedBlackNode<K, V>?) {
-        if (isRoot(oldNode)) {
-            setRoot(newNode)
-        } else if (nodeIsLeftChild(oldNode)) {
-            oldNode?.parent?.left = newNode
-        } else {
-            oldNode?.parent?.right = newNode
-        }
-        if (newNode != null) {
-            newNode.parent = getParentNodeOrNull(oldNode)
-        }
-    }
-
-    private fun rightChildIsBlack(node: RedBlackNode<K, V>?): Boolean {
-        val rightChild = getRightChild(node)
-        return isBlack(rightChild)
-    }
-
-    private fun leftChildIsBlack(node: RedBlackNode<K, V>?): Boolean {
-        val leftChild = getLeftChild(node)
-        return isBlack(leftChild)
-    }
-
-    private fun childrenAreBlack(node: RedBlackNode<K, V>?): Boolean {
-        val leftChild = getLeftChild(node)
-        val rightChild = getRightChild(node)
-        return (isBlack(leftChild) && isBlack(rightChild))
-    }
-
-    private fun getColour(node: RedBlackNode<K, V>?): Colors? {
-        if (node != null) {
-            return node.color
-        }
-        return null
-    }
-
-    fun findLeftmostChild(node: RedBlackNode<K, V>?): RedBlackNode<K, V>? {
-        var currentNode = node
-        while (currentNode?.left != null) {
-            currentNode = currentNode.left
-        }
-        return currentNode
-    }
-
-    private fun isBlack(node: RedBlackNode<K, V>?): Boolean {
-        return node == null || node.color == Colors.BLACK
-    }
-
-    private fun isRed(node: RedBlackNode<K, V>?): Boolean {
+    private fun isNodeRed(node: RedBlackNode<K, V>?): Boolean {
         return node?.color == Colors.RED
-    }
-
-    private fun nodeIsRightChild(node: RedBlackNode<K, V>?): Boolean {
-        return (node == node?.parent?.right)
-    }
-
-    private fun nodeIsLeftChild(node: RedBlackNode<K, V>?): Boolean {
-        return (node == node?.parent?.left)
-    }
-
-    private fun getParentNodeOrNull(node: RedBlackNode<K, V>?): RedBlackNode<K, V>? {
-        val parent: RedBlackNode<K, V>? = node?.parent
-
-        return parent
-    }
-
-    private fun leftChildIsNull(node: RedBlackNode<K, V>): Boolean {
-        return (getLeftChild(node) == null)
-    }
-
-    private fun rightChildIsNull(node: RedBlackNode<K, V>): Boolean {
-        return (getRightChild(node) == null)
-    }
-
-    private fun setRootColorToBlack() {
-        val fixRoot: RedBlackNode<K, V>? = getRoot()
-        fixRoot?.color = Colors.BLACK
-        setRoot(fixRoot)
-    }
-
-    private fun setRed(node: RedBlackNode<K, V>?) {
-        node?.color = Colors.RED
-    }
-
-    private fun setBlack(node: RedBlackNode<K, V>?) {
-        node?.color = Colors.BLACK
-    }
-
-    private fun isRoot(node: RedBlackNode<K, V>?): Boolean {
-        return (node == getRoot())
     }
 }
