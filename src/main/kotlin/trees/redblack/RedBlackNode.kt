@@ -8,6 +8,7 @@ const val PLUG = 0 // Doesn't matter that val it acquire
  * NilNode is used for RBTree
  * Its like a plug for null nodes which needed for implementation of internal methods
  */
+@Suppress("UNCHECKED_CAST")
 class NilNode<K : Comparable<K>, V> : RedBlackNode<K, V>(
         key = PLUG as K,
         value = PLUG as V,

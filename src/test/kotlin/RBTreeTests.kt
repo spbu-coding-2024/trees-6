@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.RepeatedTest
@@ -17,6 +18,10 @@ class RedBlackTreeTests {
         rbt = RedBlackTree()
     }
 
+    @AfterEach
+    fun endUpWithCheckProperties() {
+        rbt.checkRedBlackProperties()
+    }
 
     @Test
     fun `Basic RB test - test with simply insert and search and delete`() {
@@ -274,14 +279,12 @@ class RedBlackTreeTests {
         val initialSize = rbt.size()
         rbt.insert(1, "B")
         assertEquals(initialSize, rbt.size())
-        rbt.checkRedBlackProperties()
     }
 
     @Test
     fun `Basic RB test - root should be black`() {
         rbt.insert(10, "A")
         assertEquals(rbt.getRoot()?.color, Colors.BLACK)
-        rbt.checkRedBlackProperties()
     }
 
     @Test
@@ -289,7 +292,6 @@ class RedBlackTreeTests {
         rbt.insert(10, "A")
         rbt.checkRedBlackProperties()
         rbt.insert(15, "B")
-        rbt.checkRedBlackProperties()
     }
 
     @Test
@@ -343,7 +345,6 @@ class RedBlackTreeTests {
         assertTrue(deleteResult)
         assertNull(rbt.search(20))
         assertEquals("Value30", rbt.search(30))
-        rbt.checkRedBlackProperties()
     }
 
     @Test
@@ -359,7 +360,6 @@ class RedBlackTreeTests {
         assertTrue(deleteResult)
         assertNull(rbt.search(20))
         assertEquals("25", rbt.search(25))
-        rbt.checkRedBlackProperties()
     }
 
     @Test
@@ -377,8 +377,6 @@ class RedBlackTreeTests {
         rbt.checkRedBlackProperties()
 
         rbt.delete(20)
-        rbt.checkRedBlackProperties()
-
     }
 
 
@@ -414,7 +412,6 @@ class RedBlackTreeTests {
         }
 
         assertTrue(rbt.isEmpty())
-        rbt.checkRedBlackProperties()
     }
 
     @Test
@@ -426,7 +423,6 @@ class RedBlackTreeTests {
         val deleteResult = rbt.delete(10)
         assertTrue(deleteResult)
         assertNull(rbt.search(10))
-        rbt.checkRedBlackProperties()
     }
 
 
@@ -436,7 +432,6 @@ class RedBlackTreeTests {
         rbt.insert(10, "Value10")
         assertTrue(rbt.delete(10))
         assertTrue(rbt.isEmpty())
-        rbt.checkRedBlackProperties()
     }
 
     @Test
@@ -452,7 +447,6 @@ class RedBlackTreeTests {
         assertEquals("70", rbt.search(70))
         assertEquals("30", rbt.search(30))
         assertEquals("80", rbt.search(80))
-        rbt.checkRedBlackProperties()
     }
 
     @Test
@@ -468,7 +462,6 @@ class RedBlackTreeTests {
         assertEquals("65", rbt.search(65))
         assertEquals("70", rbt.search(70))
         assertEquals("30", rbt.search(30))
-        rbt.checkRedBlackProperties()
     }
 
     @Test
@@ -482,7 +475,6 @@ class RedBlackTreeTests {
         assertEquals("20", rbt.search(20))
         assertEquals("50", rbt.search(50))
         assertEquals("70", rbt.search(70))
-        rbt.checkRedBlackProperties()
     }
 
     @Test
