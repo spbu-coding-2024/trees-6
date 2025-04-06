@@ -191,9 +191,9 @@ abstract class AbstractTree<K : Comparable<K>, V, N : Node<K, V, N>> : Tree<K, V
      *
      * @param value The value for searching in the tree
      * @return `true` if the value is in the tree, otherwise `false`
-     * @sample samples.avl.sampleContains
+     * @sample samples.avl.samplecheckValue
      */
-    fun contains(value: V): Boolean = checkExistenceOfValueRecursively(value, getRoot())
+    fun checkValue(value: V): Boolean = checkExistenceOfValueRecursively(value, getRoot())
 
     private fun checkExistenceOfValueRecursively(
         value: V,

@@ -217,7 +217,7 @@ class RedBlackTreeTests {
     }
 
     @RepeatedTest(10)
-    fun `Complicated RB test - random test with contains() method`() {
+    fun `Complicated RB test - random test with checkValue() method`() {
         val rbt = RedBlackTree<Int, Int>()
         val allInt = mutableListOf<Int>()
         val cntElements = Random.nextInt(MIN_ELEMENTS, MAX_ELEMENTS)
@@ -228,15 +228,15 @@ class RedBlackTreeTests {
             rbt.checkRedBlackProperties()
         }
         for (i in allInt.indices) {
-            assertTrue(rbt.contains(allInt[i]))
+            assertTrue(rbt.checkValue(allInt[i]))
         }
         for (i in 1..100) {
             val currentInt = Random.nextInt(10001, 100000)
-            assertFalse(rbt.contains(currentInt))
+            assertFalse(rbt.checkValue(currentInt))
         }
         for (i in 1..100) {
             val currentInt = Random.nextInt(-100000, -10001)
-            assertFalse(rbt.contains(currentInt))
+            assertFalse(rbt.checkValue(currentInt))
         }
     }
 

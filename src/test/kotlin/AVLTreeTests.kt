@@ -255,7 +255,7 @@ class AVLTreeTests {
     }
 
     @RepeatedTest(10)
-    fun `Complicated AVL random test with contains() method`() {
+    fun `Complicated AVL random test with checkValue() method`() {
         val avl = AVLTree<Int, Int>()
         val allInt = mutableListOf<Int>()
         val cntElements = Random.nextInt(MIN_COUNT_ELEMENTS_IN_TESTS, MAX_COUNT_ELEMENTS_IN_TESTS)
@@ -267,15 +267,15 @@ class AVLTreeTests {
             avl.insert(allInt[i], allInt[i])
         }
         for (i in allInt.indices) {
-            assertTrue(avl.contains(allInt[i]))
+            assertTrue(avl.checkValue(allInt[i]))
         }
         for (i in 1..100) {
             val currentInt = Random.nextInt(cntElements + 10, cntElements + 10000)
-            assertFalse(avl.contains(currentInt))
+            assertFalse(avl.checkValue(currentInt))
         }
         for (i in 1..100) {
             val currentInt = Random.nextInt(-10000, -10)
-            assertFalse(avl.contains(currentInt))
+            assertFalse(avl.checkValue(currentInt))
         }
     }
 

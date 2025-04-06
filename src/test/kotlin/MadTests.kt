@@ -129,7 +129,7 @@ class MadTests {
     }
 
     @RepeatedTest(100)
-    fun `Mad AVL random test with contains() method`() {
+    fun `Mad AVL random test with checkValue() method`() {
         val avl = AVLTree<Int, Int>()
         val allInt = mutableListOf<Int>()
         val cntElements = Random.nextInt(MAD_MIN_COUNT_ELEMENTS_IN_TESTS, MAD_MAX_COUNT_ELEMENTS_IN_TESTS)
@@ -141,15 +141,15 @@ class MadTests {
             avl.insert(allInt[i], allInt[i])
         }
         for (i in allInt.indices) {
-            assertTrue(avl.contains(allInt[i]))
+            assertTrue(avl.checkValue(allInt[i]))
         }
         for (i in 1..1_000) {
             val currentInt = Random.nextInt(cntElements + 10, cntElements + 10_000_000)
-            assertFalse(avl.contains(currentInt))
+            assertFalse(avl.checkValue(currentInt))
         }
         for (i in 1..1_000) {
             val currentInt = Random.nextInt(-10_000_000, -10)
-            assertFalse(avl.contains(currentInt))
+            assertFalse(avl.checkValue(currentInt))
         }
     }
 }

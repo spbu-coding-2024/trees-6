@@ -111,9 +111,9 @@ fun sampleRange() {
     // Value: Some string 1
 }
 
-fun sampleContains() {
+fun samplecheckValue() {
     val avl = AVLTree<Int, String>()
     avl.insert(52, "Some string")
-    println(avl.contains("Some string")) // Print: true
-    println(avl.contains("Random string")) // Print: false
+    println(avl.checkValue("Some string")) // Print: true
+    println(avl.checkValue("Random string")) // Print: false
 }
